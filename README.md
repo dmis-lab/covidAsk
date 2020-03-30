@@ -1,9 +1,9 @@
-# covidsearch
+# <em>covidsearch</em>
 This repository provides code for <em>covidsearch</em>, a real-time biomedical question answering model on 31K COVID-19 articles.
 Code will be available in April, 2020.
 
 ## Resources
-* Biomedical NER and normalization results on 31k CORD-19 abstracts (2020-03-20 dump) [link](https://drive.google.com/file/d/1pyKJxGZgeLWknxMyOIGYAsOowZ6KlxHJ/view)
+* Biomedical NER and normalization results on 31k CORD-19 abstracts (2020-03-20 dump) \[[link](https://drive.google.com/file/d/1pyKJxGZgeLWknxMyOIGYAsOowZ6KlxHJ/view)\]
 
 ## References
 * Real-Time Open-Domain Question Answering with Dense-Sparse Phrase Index, M Seo*, J Lee*, T Kwiatkowski, AP Parikh, A Farhadi, H Hajishirzi, Annual Meeting of the Association for Computational Linguistics (ACL), 2019
@@ -13,6 +13,6 @@ Code will be available in April, 2020.
 * Pre-trained Language Model for Biomedical Question Answering, W Yoon, J Lee, D Kim, M Jeong, J Kang, BioASQ Workshop, ECML PKDD, 2019
 * BEST: Next-Generation Biomedical Entity Search Tool for Knowledge Discovery from Biomedical Literatur, S Lee, D Kim, K Lee, J Choi, S Kim, M Jeon, S Lim, D Choi, S Kim, AC Tan, J Kang, PloS one 11 (10), 2016
 
-## Contact Information
-For help or issues using <em>covidsearch</em>, please submit a GitHub issue.
-Please contact Jinhyuk Lee (`lee.jnhk (at) gmail.com`) for any collaboration related to <em>covidsearch</em>A.
+## Contact
+For any issues regarding <em>covidsearch</em>, please register a GitHub issue.
+For any collaboration related to <em>covidsearch</em>, please contact Jinhyuk Lee (`lee.jnhk (at) gmail.com`).

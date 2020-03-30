@@ -1,4 +1,4 @@
-<center> <h1><em>covidsearch</em></h1> </center> 
+# <em>covidsearch</em>
 This repository provides code for <em>covidsearch</em>, a real-time biomedical question answering model on 31K COVID-19 articles.
 Code will be available in April, 2020.
 

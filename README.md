@@ -11,7 +11,7 @@ Code will be available in April, 2020.
 * BioBERT: a pre-trained biomedical language representation model for biomedical text mining, J Lee*, W Yoon*, S Kim, D Kim, S Kim, CH So, J Kang, Bioinformatics 36 (4), 1234-1240, 2020
 * A Neural Named Entity Recognition and Multi-Type Normalization Tool for Biomedical Text Mining, D Kim, J Lee, CH So, H Jeon, M Jeong, Y Choi, W Yoon, M Sung, J Kang, IEEE Access 7, 73729-73740, 2019
 * Pre-trained Language Model for Biomedical Question Answering, W Yoon, J Lee, D Kim, M Jeong, J Kang, BioASQ Workshop, ECML PKDD, 2019
-* BEST: Next-Generation Biomedical Entity Search Tool for Knowledge Discovery from Biomedical Literatur, S Lee, D Kim, K Lee, J Choi, S Kim, M Jeon, S Lim, D Choi, S Kim, AC Tan, J Kang, PloS one 11 (10), 2016
+* BEST: Next-Generation Biomedical Entity Search Tool for Knowledge Discovery from Biomedical Literature, S Lee*, D Kim*, K Lee, J Choi, S Kim, M Jeon, S Lim, D Choi, S Kim, AC Tan, J Kang, PloS one 11 (10), 2016
 
 ## Contact
 For any issues regarding <em>covidsearch</em>, please register a GitHub issue.

@@ -2,7 +2,7 @@
 This repository provides code for <em>covidsearch</em>, a real-time biomedical question answering model on 31K COVID-19 articles.
 Code will be available in April, 2020.
 
-* [2020.04.15] Our Web service is currently unavailable due to the updates.
+* [2020.04.15] Web service temporarily unavailable due to the updates (fixed).
 
 ## Resources
 * Biomedical NER and normalization results on 31k CORD-19 abstracts (2020-03-20 dump) \[[link](https://drive.google.com/file/d/1pyKJxGZgeLWknxMyOIGYAsOowZ6KlxHJ/view)\]

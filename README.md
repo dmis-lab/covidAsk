@@ -37,7 +37,7 @@ $ conda activate covidAsk
 Note that our code is mostly based on [DenSPI](https://github.com/uwnlp/denspi) and [DrQA](https://github.com/facebookresearch/DrQA).
 
 ## Download
-We provide pre-processed CORD-19 datasets, pre-trained QA models, and their phrase dumps.
+We provide pre-processed CORD-19 datasets, pre-trained QA models, and their phrase dumps (download is currently unavailable).
 ```bash
 $ ./download.sh
 ```

@@ -1,0 +1,28 @@
+
+<div class="row questions_header">
+  <div class="col-sm-12">
+    <h1 class="h3 mb-2">Questions from Kaggle Challenge / WHO / CDC</h1>
+  </div>
+</div>
+
+{% for key, value in res['kcw'].items() %}
+  <hr class="paraphrase_example_header_line">
+  <div class="row paraphrase_example_container">
+    <div class="col-sm-12 col-md-4">
+      <h1 class='h5 mb-2 paraphrase_example_header'>{{key}}</h1>
+    </div>
+    <div class="col-sm-12 col-md-8 google_example_links">
+      {% for item in value %}
+        <a href="./cached_example?q_id={{item['id']}}" class="text-decoration-none">
+          <div class="row">
+            <div class="col-11 paraphrase_example_question">{{item['content']}}</div>
+            <div class="col-1">
+              >
+            </div>
+          </div>
+        </a>
+        <hr>
+      {% endfor %}
+    </div>
+  </div>
+{% endfor %}

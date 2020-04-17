@@ -1,0 +1,581 @@
+{
+    "data": [
+        {
+            "id": "covid_eval_17d953f4787e42a1b81af07b0b9fcbbd_What is the range of incubation periods for COVID-19 in humans?",
+            "question": "What is the range of incubation periods for COVID-19 in humans?",
+            "answers": [
+                "5.6",
+                "5.2",
+                "5",
+                "3",
+                "4.75",
+                "5.2",
+                "3.9",
+                "8.2",
+                "6.9",
+                "5.2",
+                "5.2",
+                "8.62",
+                "6.4",
+                "6.4",
+                "4",
+                "7"
+            ]
+        },
+        {
+            "id": "covid_eval_6849dd2dd9fd4903ac3ea2280d5f8b44_What percentage of COVID-19 cases in humans had incubation periods of longer than 14 days?",
+            "question": "What percentage of COVID-19 cases in humans had incubation periods of longer than 14 days?",
+            "answers": [
+                "11.6"
+            ]
+        },
+        {
+            "id": "covid_eval_e06848a5895b4a64a4c4e76bb9eb3641_How does the incubation period for COVID-19 in humans vary by age?",
+            "question": "How does the incubation period for COVID-19 in humans vary by age?",
+            "answers": [
+                "We found that the incubation periods of the groups with age>=40 years and age<40 years demonstrated a statistically significant difference."
+            ]
+        },
+        {
+            "id": "covid_eval_44c52323728d4f659227ce314506b8f6_What is proof that a 14-day quarantine period is not optimal for effectively controlling COVID-19 in children?",
+            "question": "What is proof that a 14-day quarantine period is not optimal for effectively controlling COVID-19 in children?",
+            "answers": [
+                "The median incubation period of both male and female adults was similar (7-day) but significantly shorter than that (9-day) of child cases (P=0.02)."
+            ]
+        },
+        {
+            "id": "covid_eval_a418c263837648a98b7f5cbeac82cbe6_Is there concrete evidence for the presence of asymptomatic transmissions?",
+            "question": "Is there concrete evidence for the presence of asymptomatic transmissions?",
+            "answers": [
+                "Based on the data examined, this study found little evidence for the presence of asymptomatic transmissions."
+            ]
+        },
+        {
+            "id": "covid_eval_cac46db43f944592b36d0169498e7879_What is the basic reproductive number for the novel coronavirus?",
+            "question": "What is the basic reproductive number for the novel coronavirus?",
+            "answers": [
+                "2.12"
+            ]
+        },
+        {
+            "id": "covid_eval_e2b7973268d24dde9e7f4fab931ffb80_What is evidence that the novel covonavirus can be transmitted through fecal excretion?",
+            "question": "What is evidence that the novel covonavirus can be transmitted through fecal excretion?",
+            "answers": [
+                "Prolonged shedding of SARS-CoV-2 in stools of infected children"
+            ]
+        },
+        {
+            "id": "covid_eval_b72c588103dd4cfba5215872f50aa20c_Will the number of COVID-19 cases decline in the summer?",
+            "question": "Will the number of COVID-19 cases decline in the summer?",
+            "answers": [
+                "changes in the weather alone (i.e, increase of temperature and humidity as spring and summer months arrive in the North Hemisphere) will not necessarily lead to declines in COVID-19 case counts"
+            ]
+        },
+        {
+            "id": "covid_eval_79a23beb672a4ef59bcb9305887d983e_What does the literature say about the effect of temperature variation and humidity on the mortality rate of COVID-19 in Wuhan?",
+            "question": "What does the literature say about the effect of temperature variation and humidity on the mortality rate of COVID-19 in Wuhan?",
+            "answers": [
+                "A positive association with COVID-19 mortality was observed for diurnal temperature range (r = 0.44), but negative association for relative humidity (r = \u22120.32)."
+            ]
+        },
+        {
+            "id": "covid_eval_da6479ad957447d9a45b47bd870c7e26_How long can coronavirus persist on different surfaces?",
+            "question": "How long can coronavirus persist on different surfaces?",
+            "answers": [
+                "can persist on inanimate surfaces like metal, glass or plastic for up to 9 days"
+            ]
+        },
+        {
+            "id": "covid_eval_46fb0f6f88c244aabb588e5b11ded255_How long can HCoV-19 survive on aerosols?",
+            "question": "How long can HCoV-19 survive on aerosols?",
+            "answers": [
+                "3 hours"
+            ]
+        },
+        {
+            "id": "covid_eval_4248b80741404de3af827ee40b1c81dd_How long can HCoV-19 persist on plastic and stainless steel?",
+            "question": "How long can HCoV-19 persist on plastic and stainless steel?",
+            "answers": [
+                "up to 72 hours"
+            ]
+        },
+        {
+            "id": "covid_eval_0801d500c7aa409988f1654c3b450b49_What is some evidence that recovered COVID-19 patients can get reinfected?",
+            "question": "What is some evidence that recovered COVID-19 patients can get reinfected?",
+            "answers": [
+                "Recently, it has been reported that discharged patients in china and elsewhere were testing positive after recovering."
+            ]
+        },
+        {
+            "id": "covid_eval_1fc09df268cd4f7899b0eb8afb07e6f5_For how many hours can HCoV-19 survive on cardboard?",
+            "question": "For how many hours can HCoV-19 survive on cardboard?",
+            "answers": [
+                "24 hours"
+            ]
+        },
+        {
+            "id": "covid_eval_1273c840b6b54137b80fb3ea571cfb05_How long can SARS-CoV-2 stay on copper?",
+            "question": "How long can SARS-CoV-2 stay on copper?",
+            "answers": [
+                "4 hours"
+            ]
+        },
+        {
+            "id": "covid_eval_dc72bf6c3fab4f71b337e3d4bae0621d_What is the reproduction number of COVID-19?",
+            "question": "What is the reproduction number of COVID-19?",
+            "answers": [
+                "2.56",
+                "2.4",
+                "2.5",
+                "4.7",
+                "6.6",
+                "3.56",
+                "3.28",
+                "4.5",
+                "3.39",
+                "6.2",
+                "3.1",
+                "3.28",
+                "3.7",
+                "3.6",
+                "2.65",
+                "2.92"
+            ]
+        },
+        {
+            "id": "covid_eval_91ddf75a998f495e881950806fa03ee1_How do we know that hypertension is a risk factor of COVID-19?",
+            "question": "How do we know that hypertension is a risk factor of COVID-19?",
+            "answers": [
+                "The bulk of death cases had comorbidity (76.8%), including hypertension (56.1%), heart disease (20.7%), diabetes (18.3%), cerebrovascular disease (12.2%), and cancer (7.3%)",
+                "All of those who died had underlying diseases, the most common of which was hypertension (16/25, 64%), followed by diabetes (10/25, 40%), heart diseases (8/25, 32%), kidney diseases (5/, 20%), cerebral infarction (4/25, 16%), chronic obstructive pulmonary disease (COPD, 2/25, 8%), malignant tumors (2/25, 8%) and acute pancreatitis (1/2525, 4%).",
+                "The mean age of the patients was 69.22 years (SD 9.64, range 50-90). 25(69.44%) patients were males, and 11 (30.56%) female. 26 (72.22%) patients had chronic diseases, mainly including hypertension, cardiovascular disease and diabetes.",
+                "82 (81.19%) had one or more comorbidities including hypertension (59 [58.42%]), diabetes (22 [21.78%])",
+                "Results. Of 200 COVID-19 patients, 163 (81.5%) had at least one of comorbidities, including diabetes, hypertension, hepatic disease, cardiac disease, chronic pulmonary disease and others.",
+                "Compared with the Non-severe patient, the pooled odds ratio of hypertension, respiratory system disease, cardiovascular disease in severe patients were (OR 2.36, 95% CI: 1.46-3.83) ,(OR 2.46, 95% CI: 1.76-3.44) and (OR 3.42, 95% CI: 1.88-6.22)respectively",
+                "173 had severe disease with comorbidities of hypertension (23-7%), diabetes mellitus (16-2%), coronary heart diseases (5\u00b78%), and cerebrovascular disease (2\u00b73%)",
+                "the major comorbidities of the fatality cases include hypertension, diabetes, coronary heart disease, cerebral infarction, and chronic bronchitis",
+                "among all the patients, 24 (44.4%) patients were complicated with hypertension, 13 (24.1%) with diabetes, 8 (14.8%) with coronary heart disease, and 3 (5.6%) with previous cerebral infarction"
+            ]
+        },
+        {
+            "id": "covid_eval_156faef20cfd42be8dfc3ca6bad80770_What is some evidence that diabetes poses a potential risk factor to COVID-19?",
+            "question": "What is some evidence that diabetes poses a potential risk factor to COVID-19?",
+            "answers": [
+                "Compared with non-severe patients (n = 44), severe patients (n = 7) were older (median age, 52 years vs 44 years), had a higher proportion of diabetes mellitus (4 [57.1%] vs 0 [0.0%])",
+                "Diabetes was likely to be associated with mortality.",
+                "Hyperglycemia is a risk factor for severe infection, and also an independent risk factor for the progression of mild infection to severe infection.",
+                "Results Combined with diabetes and chronic respiratory diseases, the severity of the disease was statistically significant ( \u03c7 2 =11.04\u548c6.94, P <0.05)."
+            ]
+        },
+        {
+            "id": "covid_eval_c8e8d74a984f4764a5593a7420d56709_Is heart disease a potential risk factor for COVID-19?",
+            "question": "Is heart disease a potential risk factor for COVID-19?",
+            "answers": [
+                "Novel coronavirus pneumonia (NCP) severity was higher in the AMI patients than in patients with non-definite AMI (p<0.001)."
+            ]
+        },
+        {
+            "id": "covid_eval_f1dbdb9d7e00475ba52eebf269b926a2_Are obese people more at risk to COVID-19?",
+            "question": "Are obese people more at risk to COVID-19?",
+            "answers": [
+                "The BMI of the critical group was significantly higher than that of the general group (25.5 (23.0, 27.5) kg/m(2) vs. 22.0 (20.0, 24.0) kg/m(2), P=0.003).",
+                "Higher body mass index (BMI) (HR 0.14; 95% CI 0.03-0.73), fever (HR 0.24; 95% CI 0.09-0.60) and higher levels of IL-6 on admission (HR 0.31; 95% CI 0.11-0.87) were unfavorable factors for discharge."
+            ]
+        },
+        {
+            "id": "covid_eval_db2e7fb512d840f28165cdc82e3aacc7_What is the relationship between pregnancy and COVID-19?",
+            "question": "What is the relationship between pregnancy and COVID-19?",
+            "answers": [
+                "This cohort had COVID-19 from 31 weeks onwards, 6/9 pregnancies showed fetal distress and 5/9 women ( 6/10 babies ) were delivered prematurely.",
+                "Conclusion Severe maternal and neonatal complications were not observed in pregnant women with COVID-19 pneumonia who had vaginal delivery or caesarean section."
+            ]
+        },
+        {
+            "id": "covid_eval_3fb666c1e6064263b2b9920b8b67929a_Do people who smoke have a higher risk from COVID-19?",
+            "question": "Do people who smoke have a higher risk from COVID-19?",
+            "answers": [
+                "The progression group had a significantly higher proportion of patients with a history of smoking than the improvement/stabilization group (27.3% vs. 3.0%, \u03c72 = 9.291, P = 0.018)",
+                "Together, this study indicates that smokers especially former smokers may be more susceptible to 2019-nCov and have infection paths different with non-smokers.",
+                "no significant association could neither be found between active smoking and severity of COVID-19 when data of individual studies were pooled (OR, 1.69; 95% CI, 0.41\u20136.92; p=0.254)",
+                "Although the relationship between smoking history and susceptibility as well as worse outcomes in COVID-19 remains unclear, we cautioned that the prognosis of COVID-19 in patients with smoking history might be more severe."
+            ]
+        },
+        {
+            "id": "covid_eval_effc59bb3a654738bc9dec0935607f27_How short is the serial interval for COVID-19?",
+            "question": "How short is the serial interval for COVID-19?",
+            "answers": [
+                "The serial interval of COVID-19 is shorter than its median incubation period."
+            ]
+        },
+        {
+            "id": "covid_eval_685a33a9192c4f7380f05f2fd6761c50_What feature of Indian SARS-CoV-2 is absent in other strands?",
+            "question": "What feature of Indian SARS-CoV-2 is absent in other strands?",
+            "answers": [
+                "a unique mutation in the spike surface glycoprotein"
+            ]
+        },
+        {
+            "id": "covid_eval_6b3c05c8c19b4f438560ed34e2c29b22_When was the first human case of COVID-19 reported?",
+            "question": "When was the first human case of COVID-19 reported?",
+            "answers": [
+                "December 2019"
+            ]
+        },
+        {
+            "id": "covid_eval_e804e0f495ac4f339fb6ad067f87572c_What is the recommended length of quarantine?",
+            "question": "What is the recommended length of quarantine?",
+            "answers": [
+                "14 days"
+            ]
+        },
+        {
+            "id": "covid_eval_8e9de200d57949db85b52086173650dd_What meteorological factors may impact COVID-19 death?",
+            "question": "What meteorological factors may impact COVID-19 death?",
+            "answers": [
+                "temperature",
+                "humidity"
+            ]
+        },
+        {
+            "id": "covid_eval_7648c74fb85d4cf0b01eb43314dcd381_What facility was responsible for significantly decreasing COVID-19 mortality in Wuhan and Hubei?",
+            "question": "What facility was responsible for significantly decreasing COVID-19 mortality in Wuhan and Hubei?",
+            "answers": [
+                "makeshift hospitals"
+            ]
+        },
+        {
+            "id": "covid_eval_fd5550c8801e488fa988587bd6853c75_Is being diagnosed with coronavirus the same as being diagnosed as COVID-19?",
+            "question": "Is being diagnosed with coronavirus the same as being diagnosed as COVID-19?",
+            "answers": [
+                "A diagnosis with coronavirus 229E, NL63, OC43, or HKU1 is not the same as a COVID-19 diagnosis."
+            ]
+        },
+        {
+            "id": "covid_eval_e87aed1d8ed24eda94ad20c3467f5f02_Why is the disease being called COVID-19?",
+            "question": "Why is the disease being called COVID-19?",
+            "answers": [
+                "In COVID-19, 'CO' stands for 'corona,' 'VI' for 'virus,' and 'D' for 'disease.'"
+            ]
+        },
+        {
+            "id": "covid_eval_fc1ac0a86c304c62a6a8f5cf0c3fe9f6_How can people help stop stigma related to COVID-19?",
+            "question": "How can people help stop stigma related to COVID-19?",
+            "answers": [
+                "Communicating the facts that viruses do not target specific racial or ethnic groups and how COVID-19 actually spreads can help stop stigma."
+            ]
+        },
+        {
+            "id": "covid_eval_a7c5fb830ca64341b56c42a69901ad0d_What other coronavirus strands that infect humans originated from animals?",
+            "question": "What other coronavirus strands that infect humans originated from animals?",
+            "answers": [
+                "Middle East Respiratory Syndrome (MERS) and Severe Acute Respiratory Syndrome (SARS) are two other examples of coronaviruses that originated from animals and then spread to people."
+            ]
+        },
+        {
+            "id": "covid_eval_e4f52f7e421a49198fb1da1f7244c5a9_What is community spread?",
+            "question": "What is community spread?",
+            "answers": [
+                "Community spread means people have been infected with the virus in an area, including some who are not sure how or where they became infected."
+            ]
+        },
+        {
+            "id": "covid_eval_4143df3510d54ac6b55d391d43ea748a_Why are we seeing a rise in COVID-19 cases in the United States?",
+            "question": "Why are we seeing a rise in COVID-19 cases in the United States?",
+            "answers": [
+                "The number of cases of COVID-19 being reported in the United States is rising due to increased laboratory testing and reporting across the country."
+            ]
+        },
+        {
+            "id": "covid_eval_9f427d4c218549b6bacefe6b98d9b56c_How long do COVID-19 patients have to be isolated?",
+            "question": "How long do COVID-19 patients have to be isolated?",
+            "answers": [
+                "How long someone is actively sick can vary so the decision on when to release someone from isolation is made on a case-by-case basis in consultation with doctors, infection prevention and control experts, and public health officials and involves considering specifics of each situation including disease, severity, illness signs and symptoms, and results of laboratory testing for that patient."
+            ]
+        },
+        {
+            "id": "covid_eval_30e5c602d5134b3ab25139f8f9086448_What are current CDC guidelines to determine whether a COVID-19 patient may be released from isolation?",
+            "question": "What are current CDC guidelines to determine whether a COVID-19 patient may be released from isolation?",
+            "answers": [
+                "The patient is free from fever without the use of fever-reducing medications.",
+                "The patient is no longer showing symptoms, including cough.",
+                "The patient has tested negative on at least two consecutive respiratory specimens collected at least 24 hours apart."
+            ]
+        },
+        {
+            "id": "covid_eval_7433f7fc76b94efc9fe212ff4c1d5cce_Is a COVID-19 who has recovered considered a risk to others?",
+            "question": "Is a COVID-19 who has recovered considered a risk to others?",
+            "answers": [
+                "Someone who has been released from isolation is not considered to pose a risk of infection to others."
+            ]
+        },
+        {
+            "id": "covid_eval_0f5f89f711de4cd080e3760cf416c810_Can the COVID-19 virus be spread through food",
+            "question": "Can the COVID-19 virus be spread through food",
+            "answers": [
+                "In general, because of poor survivability of these coronaviruses on surfaces, there is likely very low risk of spread from food products or packaging that are shipped over a period of days or weeks at ambient, refrigerated, or frozen temperatures."
+            ]
+        },
+        {
+            "id": "covid_eval_25e1939732b64092a91bb6802a0b633d_What temperature kills HCoV-19?",
+            "question": "What temperature kills HCoV-19?",
+            "answers": [
+                "We don't have direct data for HCoV-19, nor do we have direct data for a temperature-based cutoff for inactivation at this point."
+            ]
+        },
+        {
+            "id": "covid_eval_99e87686d9994925aa62451e2160e5f2_What is the most common way that coronavirus spreads?",
+            "question": "What is the most common way that coronavirus spreads?",
+            "answers": [
+                "Coronaviruses are generally thought to be spread most often by respiratory droplets."
+            ]
+        },
+        {
+            "id": "covid_eval_b90b57b3927e447c8e739e6b2a0cef94_Is it safe to donate blood?",
+            "question": "Is it safe to donate blood?",
+            "answers": [
+                "CDC encourages people who are well to continue to donate blood if they are able, even if they are practicing social distancing because of COVID-19."
+            ]
+        },
+        {
+            "id": "covid_eval_5517c230b38c42d9a152bb153ad90eba_Are children at a higher risk of becoming sick with COVID-19 than adults?",
+            "question": "Are children at a higher risk of becoming sick with COVID-19 than adults?",
+            "answers": [
+                "Based on available evidence, children do not appear to be at higher risk for COVID-19 than adults."
+            ]
+        },
+        {
+            "id": "covid_eval_1bede6e0e5a94b3c9b5e5c9de1113e78_Are the symptoms of COVID-19 different in children than in adults?",
+            "question": "Are the symptoms of COVID-19 different in children than in adults?",
+            "answers": [
+                "The symptoms of COVID-19 are similar in children and adults."
+            ]
+        },
+        {
+            "id": "covid_eval_0fb376ecadd74eab97c0e326492317df_What are some symptoms of COVID-19 in children?",
+            "question": "What are some symptoms of COVID-19 in children?",
+            "answers": [
+                "Reported symptoms in children include cold-like symptoms, such as fever, runny nose, and cough."
+            ]
+        },
+        {
+            "id": "covid_eval_20a2483579b44ee29f30334909ca1802_What should I do if someone in my house gets sick with COVID-19?",
+            "question": "What should I do if someone in my house gets sick with COVID-19?",
+            "answers": [
+                "Stay home when you are sick, except to get medical care.",
+                "Use a separate room and bathroom for sick household members.",
+                "Clean hands regularly by handwashing with soap and water or using an alcohol-based hand sanitizer with at least 60% alcohol.",
+                "Provide your sick household member with clean disposable facemasks to wear at home, if available, to help prevent spreading COVID-19 to others.",
+                "Clean the sick room and bathroom, as needed, to avoid unnecessary contact with the sick person.",
+                "Avoid sharing personal items like utensils, food, and drinks."
+            ]
+        },
+        {
+            "id": "covid_eval_a21958ed18d345078f7f4efae26bc34a_Should I use soap and water or a hand sanitizer to protect against COVID-19?",
+            "question": "Should I use soap and water or a hand sanitizer to protect against COVID-19?",
+            "answers": [
+                "If soap and water are not readily available, use an alcohol-based hand sanitizer with at least 60% alcohol."
+            ]
+        },
+        {
+            "id": "covid_eval_a6eb688b9687441a836bda776bf9c83e_Should I make my own hand sanitizer if I can't find it in the stores?",
+            "question": "Should I make my own hand sanitizer if I can't find it in the stores?",
+            "answers": [
+                "CDC does not encourage the production and use of homemade hand sanitizer products because of concerns over the correct use of the ingredients and the need to work under sterile conditions to make the product."
+            ]
+        },
+        {
+            "id": "covid_eval_29873bd73b6342778a8429d67136a31c_Am I safe if I tested negative for COVID-19?",
+            "question": "Am I safe if I tested negative for COVID-19?",
+            "answers": [
+                "It is possible that you were very early in your infection at the time of your specimen collection and that you could test positive later, or you could be exposed later and then develop illness."
+            ]
+        },
+        {
+            "id": "covid_eval_81e7e78f183742aeb71a693a339660d8_What does well controlled mean?",
+            "question": "What does well controlled mean?",
+            "answers": [
+                "Generally, well-controlled means that your condition is stable, not life-threatening, and laboratory assessments and other findings are as possible to those without the health condition."
+            ]
+        },
+        {
+            "id": "covid_eval_53e1204312694cdb93f8de03f54be177_What does more severe illness mean?",
+            "question": "What does more severe illness mean?",
+            "answers": [
+                "Severity typically means how much impact the illness or condition has on your body's function."
+            ]
+        },
+        {
+            "id": "covid_eval_f37810114b344b589383a9019f28da62_Are people with disabilities at higher risk?",
+            "question": "Are people with disabilities at higher risk?",
+            "answers": [
+                "Most people with disabilities are not inherently at higher risk for becoming infected with or having severe illness from COVID-19."
+            ]
+        },
+        {
+            "id": "covid_eval_c94d0ff06ecb4d368cf1da27611f3f5c_Am I at risk if I go to a funeral or visitation service for someone who died of COVID-19?",
+            "question": "Am I at risk if I go to a funeral or visitation service for someone who died of COVID-19?",
+            "answers": [
+                "There is currently no known risk associated with being in the same room at a funeral or visitation service with the body of someone who died of COVID-19."
+            ]
+        },
+        {
+            "id": "covid_eval_a95170bb9a4b4f2889118ff459bb8831_Am I at risk if I touch someone who died of COVID-19 after they have passed away?",
+            "question": "Am I at risk if I touch someone who died of COVID-19 after they have passed away?",
+            "answers": [
+                "The virus that causes COVID-19 is thought to mainly spread from close contact (i.e., within about 6 feet) with a person who is currently sick with COVID-19."
+            ]
+        },
+        {
+            "id": "covid_eval_f6d77ee90fed4e3c93fa20cc0178da99_Do I need to get my pet tested for COVID-19?",
+            "question": "Do I need to get my pet tested for COVID-19?",
+            "answers": [
+                "At this time, routine testing of animals for COVID-19 is not recommended."
+            ]
+        },
+        {
+            "id": "covid_eval_558f2e0b3b2b4657b6f6489e002d8d13_Can animals carry the virus that causes COVID-19 on their skin or fur?",
+            "question": "Can animals carry the virus that causes COVID-19 on their skin or fur?",
+            "answers": [
+                "At this time, there is no evidence that the virus that causes COVID-19 can spread to people from the skin or fur of pets."
+            ]
+        },
+        {
+            "id": "covid_eval_20e1dd72a89b420db1a26124e0c249ca_Should I avoid contact with pets or other animals if I am sick with COVID-19?",
+            "question": "Should I avoid contact with pets or other animals if I am sick with COVID-19?",
+            "answers": [
+                "Although there have not been reports of pets or other animals becoming sick with COVID-19, it is still recommended that people sick with COVID-19 limit contact with animals until more information is known about the new coronavirus."
+            ]
+        },
+        {
+            "id": "covid_eval_b5f6b73cd99544158013a55998da460c_Can children still hang out with their friends?",
+            "question": "Can children still hang out with their friends?",
+            "answers": [
+                "While school is out, children should not have in-person playdates with children from other households."
+            ]
+        },
+        {
+            "id": "covid_eval_60b87f0dc87f456fbde0ccf1d88fce18_What diseases are caused by coronavirus?",
+            "question": "What diseases are caused by coronavirus?",
+            "answers": [
+                "MERS",
+                "SARS",
+                "COVID-19"
+            ]
+        },
+        {
+            "id": "covid_eval_57c5472fc1be43aaa921feeae6062e16_What are the symptoms of COVID-19?",
+            "question": "What are the symptoms of COVID-19?",
+            "answers": [
+                "fever",
+                "tiredness",
+                "dry cough"
+            ]
+        },
+        {
+            "id": "covid_eval_de38fa76af8841fcbb23c494f1a46d19_What percentage of people infected with COVID-19 recover without needing special treatment?",
+            "question": "What percentage of people infected with COVID-19 recover without needing special treatment?",
+            "answers": [
+                "80%"
+            ]
+        },
+        {
+            "id": "covid_eval_f611c86d3cb845e2b454095cc38bc416_What can I do to protect myself against COVID-19?",
+            "question": "What can I do to protect myself against COVID-19?",
+            "answers": [
+                "wash hands",
+                "wear mask",
+                "avoid touching eyes nose and mouth",
+                "social distancing",
+                "stay home if you feel unwell",
+                "keep up to date on COVID-19 news"
+            ]
+        },
+        {
+            "id": "covid_eval_8fd724a1b80c46a78ecb3c6481335be1_What should someone who has visited areas heavily infected with COVID-19 do?",
+            "question": "What should someone who has visited areas heavily infected with COVID-19 do?",
+            "answers": [
+                "self isolate for at least 14 days"
+            ]
+        },
+        {
+            "id": "covid_eval_b9b87ac47463477ba04b527eaf433d47_How likely is it for someone to catch COVID-19?",
+            "question": "How likely is it for someone to catch COVID-19?",
+            "answers": [
+                "For most people in most locations the risk of catching COVID-19 is still low. However, there are now places around the world (cities or areas) where the disease is spreading. For people living in, or visiting, these areas the risk of catching COVID-19 is higher."
+            ]
+        },
+        {
+            "id": "covid_eval_a85daf9c15e94a0bb2eaeb2abc705d8d_How many people who catch COVID-19 need hospital care?",
+            "question": "How many people who catch COVID-19 need hospital care?",
+            "answers": [
+                "about 1 in every 5 people"
+            ]
+        },
+        {
+            "id": "covid_eval_154c37fb95b74011b11ad24eb6a52c58_Who is most prone to develop serious illness?",
+            "question": "Who is most prone to develop serious illness?",
+            "answers": [
+                "older persons and persons with pre-existing medical conditions"
+            ]
+        },
+        {
+            "id": "covid_eval_10639de0be4b4fd192c47b4e5dfe0d32_Why are antibiotics not effective against COVID-19?",
+            "question": "Why are antibiotics not effective against COVID-19?",
+            "answers": [
+                "Antibiotics do not work against viruses, they only work on bacterial infections.",
+                "COVID-19 is caused by a virus, so antibiotics do not work."
+            ]
+        },
+        {
+            "id": "covid_eval_bfe659008f3a4b859d6abf0c2d03ef46_Are there any medicines or therapies that can prevent or cure COVID-19?",
+            "question": "Are there any medicines or therapies that can prevent or cure COVID-19?",
+            "answers": [
+                "While some western, traditional or home remedies may provide comfort and alleviate symptoms of COVID-19, there is no evidence that current medicine can prevent or cure the disease."
+            ]
+        },
+        {
+            "id": "covid_eval_2e47671ca3c44e1dbea019d6f547bd7e_Is there a vaccine",
+            "question": "Is there a vaccine",
+            "answers": [
+                "To date, there is no vaccine and no specific antiviral medicine to prevent or treat COVID-19."
+            ]
+        },
+        {
+            "id": "covid_eval_fed8324787984a0697213972d61d77a3_Is COVID-19 the same as SARS?",
+            "question": "Is COVID-19 the same as SARS?",
+            "answers": [
+                "The virus that causes COVID-19 and the one that caused the outbreak of Severe Acute Respiratory Syndrome (SARS) in 2003 are related to each other genetically, but the diseases they cause are quite different."
+            ]
+        },
+        {
+            "id": "covid_eval_f2e0cf69b3a446b5a529a68f01c537f3_Can I catch COVID-19 from my pet?",
+            "question": "Can I catch COVID-19 from my pet?",
+            "answers": [
+                "to date, there is no evidence that a dog, cat or any pet can transmit COVID-19."
+            ]
+        },
+        {
+            "id": "covid_eval_5c30770d72db4a89afed28586dec1e72_Is it safe to receive a package from any area where COVID-19 has been reported?",
+            "question": "Is it safe to receive a package from any area where COVID-19 has been reported?",
+            "answers": [
+                "The likelihood of an infected person contaminating commercial goods is low and the risk of catching the virus that causes COVID-19 from a package that has been moved, travelled, and exposed to different conditions and temperatures is also low."
+            ]
+        },
+        {
+            "id": "covid_eval_98e591236ee54ddb97ad20bca5947b07_According to the WHO",
+            "question": "According to the WHO",
+            "answers": [
+                "smoking",
+                "wearing multiple masks",
+                "taking antibiotics"
+            ]
+        },
+        {
+            "id": "covid_eval_7f9b427a88ae470a8588c550eb747cd9_Is COVID-19 airborne?",
+            "question": "Is COVID-19 airborne?",
+            "answers": [
+                "The virus that causes COVID-19 is mainly transmitted through droplets generated when an infected person coughs, sneezes, or speaks."
+            ]
+        }
+    ]
+}

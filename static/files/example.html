@@ -1,0 +1,29 @@
+<div class="row">
+  <div class="col-12">
+    <h1 class="h3 mb-2">Examples</h1>
+  </div>
+</div>
+
+{% for key, value in res.items() %}
+  <div class="row paraphrase_example_container">
+    <div class="col-sm-12 col-md-4">
+      <hr>
+      <h1 class='h5 mb-2'>{{key}}</h1>
+    </div>
+    <div class="col-sm-12 col-md-8">
+      {% for item in value %}
+        <hr>
+        <a href="#" class="text-decoration-none">
+          <div class="row">
+            <div class="col-11">
+              {{item}}
+            </div>
+            <div class="col-1">
+              ->
+            </div>
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+{% endfor %}

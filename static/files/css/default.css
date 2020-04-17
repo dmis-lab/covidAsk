@@ -1,0 +1,21 @@
+
+.myWrapper{
+  min-height: 100vh;
+}
+
+nav > ul > li > img{
+  height: 45px;
+}
+
+footer{
+    padding: 10px 0 !important;
+    font-size: 12px;
+    line-height: 20px;
+    text-align: center;
+    /* background-color: #4e73df; */
+}
+
+.footer_logo{
+  height: 20px;
+  margin: 0 25px;
+}

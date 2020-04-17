@@ -1,0 +1,115 @@
+{
+    "ret": [
+        {
+            "answer": "Wuhan City (China",
+            "context": "The World Health Organization (WHO) has issued a warning that, although the 2019 novel coronavirus (COVID-19) from Wuhan City (China), is not pandemic, it should be contained to prevent the global spread. The COVID-19 virus was known earlier as 2019-nCoV. As of 12 February 2020, WHO reported 45,171 cases and 1115 deaths related to COVID-19. COVID-19 is similar to Severe Acute Respiratory Syndrome coronavirus (SARS-CoV) virus in its pathogenicity, clinical spectrum, and epidemiology. Comparison of the genome sequences of COVID-19, SARS-CoV, and Middle East Respiratory Syndrome coronavirus (MERS-CoV) showed that COVID-19 has a better sequence identity with SARS-CoV compared to MERS CoV. However, the amino acid sequence of COVID-19 differs from other coronaviruses specifically in the regions of 1ab polyprotein and surface glycoprotein or S-protein. Although several animals have been speculated to be a reservoir for COVID-19, no animal reservoir has been already confirmed. COVID-19 causes COVID-19 disease that has similar symptoms as SARS-CoV. Studies suggest that the human receptor for COVID-19 may be angiotensin-converting enzyme 2 (ACE2) receptor similar to that of SARS-CoV. The nucleocapsid (N) protein of COVID-19 has nearly 90% amino acid sequence identity with SARS-CoV. The N protein antibodies of SARS-CoV may cross react with COVID-19 but may not provide cross-immunity. In a similar fashion to SARS-CoV, the N protein of COVID-19 may play an important role in suppressing the RNA interference (RNAi) to overcome the host defense. This mini-review aims at investigating the most recent trend of COVID-19.",
+            "doc_idx": 11103,
+            "end_idx": 30,
+            "end_pos": 132,
+            "score": 135.77278583908478,
+            "start_idx": 26,
+            "start_pos": 115,
+            "title": "COVID-ABS_6e939c_covid-19 (novel coronavirus 2019) - recent trends"
+        },
+        {
+            "answer": "China",
+            "context": "The World Health Organization (WHO) has issued a warning that, although the 2019 novel coronavirus (COVID-19) from Wuhan City (China), is not pandemic, it should be contained to prevent the global spread. The COVID-19 virus was known earlier as 2019-nCoV. As of 12 February 2020, WHO reported 45,171 cases and 1115 deaths related to COVID-19. COVID-19 is similar to Severe Acute Respiratory Syndrome coronavirus (SARS-CoV) virus in its pathogenicity, clinical spectrum, and epidemiology. Comparison of the genome sequences of COVID-19, SARS-CoV, and Middle East Respiratory Syndrome coronavirus (MERS-CoV) showed that COVID-19 has a better sequence identity with SARS-CoV compared to MERS CoV. However, the amino acid sequence of COVID-19 differs from other coronaviruses specifically in the regions of 1ab polyprotein and surface glycoprotein or S-protein. Although several animals have been speculated to be a reservoir for COVID-19, no animal reservoir has been already confirmed. COVID-19 causes COVID-19 disease that has similar symptoms as SARS-CoV. Studies suggest that the human receptor for COVID-19 may be angiotensin-converting enzyme 2 (ACE2) receptor similar to that of SARS-CoV. The nucleocapsid (N) protein of COVID-19 has nearly 90% amino acid sequence identity with SARS-CoV. The N protein antibodies of SARS-CoV may cross react with COVID-19 but may not provide cross-immunity. In a similar fashion to SARS-CoV, the N protein of COVID-19 may play an important role in suppressing the RNA interference (RNAi) to overcome the host defense. This mini-review aims at investigating the most recent trend of COVID-19.",
+            "doc_idx": 11103,
+            "end_idx": 30,
+            "end_pos": 132,
+            "score": 124.87954777145782,
+            "start_idx": 30,
+            "start_pos": 127,
+            "title": "COVID-ABS_6e939c_covid-19 (novel coronavirus 2019) - recent trends"
+        },
+        {
+            "answer": "from Wuhan City (China",
+            "context": "The World Health Organization (WHO) has issued a warning that, although the 2019 novel coronavirus (COVID-19) from Wuhan City (China), is not pandemic, it should be contained to prevent the global spread. The COVID-19 virus was known earlier as 2019-nCoV. As of 12 February 2020, WHO reported 45,171 cases and 1115 deaths related to COVID-19. COVID-19 is similar to Severe Acute Respiratory Syndrome coronavirus (SARS-CoV) virus in its pathogenicity, clinical spectrum, and epidemiology. Comparison of the genome sequences of COVID-19, SARS-CoV, and Middle East Respiratory Syndrome coronavirus (MERS-CoV) showed that COVID-19 has a better sequence identity with SARS-CoV compared to MERS CoV. However, the amino acid sequence of COVID-19 differs from other coronaviruses specifically in the regions of 1ab polyprotein and surface glycoprotein or S-protein. Although several animals have been speculated to be a reservoir for COVID-19, no animal reservoir has been already confirmed. COVID-19 causes COVID-19 disease that has similar symptoms as SARS-CoV. Studies suggest that the human receptor for COVID-19 may be angiotensin-converting enzyme 2 (ACE2) receptor similar to that of SARS-CoV. The nucleocapsid (N) protein of COVID-19 has nearly 90% amino acid sequence identity with SARS-CoV. The N protein antibodies of SARS-CoV may cross react with COVID-19 but may not provide cross-immunity. In a similar fashion to SARS-CoV, the N protein of COVID-19 may play an important role in suppressing the RNA interference (RNAi) to overcome the host defense. This mini-review aims at investigating the most recent trend of COVID-19.",
+            "doc_idx": 11103,
+            "end_idx": 30,
+            "end_pos": 132,
+            "score": 120.53230970764557,
+            "start_idx": 25,
+            "start_pos": 110,
+            "title": "COVID-ABS_6e939c_covid-19 (novel coronavirus 2019) - recent trends"
+        },
+        {
+            "answer": "City (China",
+            "context": "The World Health Organization (WHO) has issued a warning that, although the 2019 novel coronavirus (COVID-19) from Wuhan City (China), is not pandemic, it should be contained to prevent the global spread. The COVID-19 virus was known earlier as 2019-nCoV. As of 12 February 2020, WHO reported 45,171 cases and 1115 deaths related to COVID-19. COVID-19 is similar to Severe Acute Respiratory Syndrome coronavirus (SARS-CoV) virus in its pathogenicity, clinical spectrum, and epidemiology. Comparison of the genome sequences of COVID-19, SARS-CoV, and Middle East Respiratory Syndrome coronavirus (MERS-CoV) showed that COVID-19 has a better sequence identity with SARS-CoV compared to MERS CoV. However, the amino acid sequence of COVID-19 differs from other coronaviruses specifically in the regions of 1ab polyprotein and surface glycoprotein or S-protein. Although several animals have been speculated to be a reservoir for COVID-19, no animal reservoir has been already confirmed. COVID-19 causes COVID-19 disease that has similar symptoms as SARS-CoV. Studies suggest that the human receptor for COVID-19 may be angiotensin-converting enzyme 2 (ACE2) receptor similar to that of SARS-CoV. The nucleocapsid (N) protein of COVID-19 has nearly 90% amino acid sequence identity with SARS-CoV. The N protein antibodies of SARS-CoV may cross react with COVID-19 but may not provide cross-immunity. In a similar fashion to SARS-CoV, the N protein of COVID-19 may play an important role in suppressing the RNA interference (RNAi) to overcome the host defense. This mini-review aims at investigating the most recent trend of COVID-19.",
+            "doc_idx": 11103,
+            "end_idx": 30,
+            "end_pos": 132,
+            "score": 120.2242905464212,
+            "start_idx": 28,
+            "start_pos": 121,
+            "title": "COVID-ABS_6e939c_covid-19 (novel coronavirus 2019) - recent trends"
+        },
+        {
+            "answer": "Wuhan and other inland regions of China",
+            "context": "Objectives: Latest epidemic data of Severe Acute Respiratory Syndrome Coronavirus 2 (SARS-CoV-2) infected Pneumonia (COVID-19) was collected and a detailed statistical analysis was carried out to make comparison with 2003-SARS in order to provide scientific reference for the prevention and control of COVID-19. Methods: The information of COVID-19 and 2003-SARS from websites of NHCPRC and the World Health Organization was collected, and then the transmission dynamics of the two kinds of infectious diseases were analyzed. The information of 853 confirmed COVID-19 patients obtained from the website of health committees of 18 provinces. A descriptive epidemiological analysis method was employed to carefully analyze the epidemic characteristics. Subsequently, the COVID-19 epidemic data in Wuhan and other inland regions of China was analyzed separately and compared. A multivariate function model was constructed based on the confirmed COVID-19 case data. Results: The growth rate of new cases and deaths of COVID-19 were significantly faster than those of 2003-SARS. The number of confirmed cases in Wuhan and other inland areas both showed increasing trends. 853 confirmed COVID-19 cases aged 1 months to 94 years and the average age was (45.05 ± 17.22) years. The gender ratio (M: F) was 1.12: 1. Conclusions: The fatality rate of COVID-19 is lower than that of 2003-SARS and the cure rate is higher. The age of COVID-19 patients is mainly concentrated in the 30-50 years old (60.61%). The harm of the first-generation COVID-19 patients is higher than that of secondary cases.",
+            "doc_idx": 27490,
+            "end_idx": 164,
+            "end_pos": 834,
+            "score": 117.3453558433732,
+            "start_idx": 157,
+            "start_pos": 795,
+            "title": "COVID-ABS_f17c6a_transmission and epidemiological characteristics of severe acute respiratory syndrome coronavirus 2 (sars-cov-2) infected pneumonia (covid-19): preliminary evidence obtained in comparison with 2003-sars"
+        },
+        {
+            "answer": "Severe Acute Respiratory Syndrome Coronavirus 2",
+            "context": "Objectives: Latest epidemic data of Severe Acute Respiratory Syndrome Coronavirus 2 (SARS-CoV-2) infected Pneumonia (COVID-19) was collected and a detailed statistical analysis was carried out to make comparison with 2003-SARS in order to provide scientific reference for the prevention and control of COVID-19. Methods: The information of COVID-19 and 2003-SARS from websites of NHCPRC and the World Health Organization was collected, and then the transmission dynamics of the two kinds of infectious diseases were analyzed. The information of 853 confirmed COVID-19 patients obtained from the website of health committees of 18 provinces. A descriptive epidemiological analysis method was employed to carefully analyze the epidemic characteristics. Subsequently, the COVID-19 epidemic data in Wuhan and other inland regions of China was analyzed separately and compared. A multivariate function model was constructed based on the confirmed COVID-19 case data. Results: The growth rate of new cases and deaths of COVID-19 were significantly faster than those of 2003-SARS. The number of confirmed cases in Wuhan and other inland areas both showed increasing trends. 853 confirmed COVID-19 cases aged 1 months to 94 years and the average age was (45.05 ± 17.22) years. The gender ratio (M: F) was 1.12: 1. Conclusions: The fatality rate of COVID-19 is lower than that of 2003-SARS and the cure rate is higher. The age of COVID-19 patients is mainly concentrated in the 30-50 years old (60.61%). The harm of the first-generation COVID-19 patients is higher than that of secondary cases.",
+            "doc_idx": 27490,
+            "end_idx": 12,
+            "end_pos": 83,
+            "score": 112.06569418794717,
+            "start_idx": 6,
+            "start_pos": 36,
+            "title": "COVID-ABS_f17c6a_transmission and epidemiological characteristics of severe acute respiratory syndrome coronavirus 2 (sars-cov-2) infected pneumonia (covid-19): preliminary evidence obtained in comparison with 2003-sars"
+        },
+        {
+            "answer": "COVID-19 virus",
+            "context": "The World Health Organization (WHO) has issued a warning that, although the 2019 novel coronavirus (COVID-19) from Wuhan City (China), is not pandemic, it should be contained to prevent the global spread. The COVID-19 virus was known earlier as 2019-nCoV. As of 12 February 2020, WHO reported 45,171 cases and 1115 deaths related to COVID-19. COVID-19 is similar to Severe Acute Respiratory Syndrome coronavirus (SARS-CoV) virus in its pathogenicity, clinical spectrum, and epidemiology. Comparison of the genome sequences of COVID-19, SARS-CoV, and Middle East Respiratory Syndrome coronavirus (MERS-CoV) showed that COVID-19 has a better sequence identity with SARS-CoV compared to MERS CoV. However, the amino acid sequence of COVID-19 differs from other coronaviruses specifically in the regions of 1ab polyprotein and surface glycoprotein or S-protein. Although several animals have been speculated to be a reservoir for COVID-19, no animal reservoir has been already confirmed. COVID-19 causes COVID-19 disease that has similar symptoms as SARS-CoV. Studies suggest that the human receptor for COVID-19 may be angiotensin-converting enzyme 2 (ACE2) receptor similar to that of SARS-CoV. The nucleocapsid (N) protein of COVID-19 has nearly 90% amino acid sequence identity with SARS-CoV. The N protein antibodies of SARS-CoV may cross react with COVID-19 but may not provide cross-immunity. In a similar fashion to SARS-CoV, the N protein of COVID-19 may play an important role in suppressing the RNA interference (RNAi) to overcome the host defense. This mini-review aims at investigating the most recent trend of COVID-19.",
+            "doc_idx": 11103,
+            "end_idx": 54,
+            "end_pos": 223,
+            "score": 111.71799152756134,
+            "start_idx": 50,
+            "start_pos": 209,
+            "title": "COVID-ABS_6e939c_covid-19 (novel coronavirus 2019) - recent trends"
+        },
+        {
+            "answer": "infected Pneumonia",
+            "context": "Objectives: Latest epidemic data of Severe Acute Respiratory Syndrome Coronavirus 2 (SARS-CoV-2) infected Pneumonia (COVID-19) was collected and a detailed statistical analysis was carried out to make comparison with 2003-SARS in order to provide scientific reference for the prevention and control of COVID-19. Methods: The information of COVID-19 and 2003-SARS from websites of NHCPRC and the World Health Organization was collected, and then the transmission dynamics of the two kinds of infectious diseases were analyzed. The information of 853 confirmed COVID-19 patients obtained from the website of health committees of 18 provinces. A descriptive epidemiological analysis method was employed to carefully analyze the epidemic characteristics. Subsequently, the COVID-19 epidemic data in Wuhan and other inland regions of China was analyzed separately and compared. A multivariate function model was constructed based on the confirmed COVID-19 case data. Results: The growth rate of new cases and deaths of COVID-19 were significantly faster than those of 2003-SARS. The number of confirmed cases in Wuhan and other inland areas both showed increasing trends. 853 confirmed COVID-19 cases aged 1 months to 94 years and the average age was (45.05 ± 17.22) years. The gender ratio (M: F) was 1.12: 1. Conclusions: The fatality rate of COVID-19 is lower than that of 2003-SARS and the cure rate is higher. The age of COVID-19 patients is mainly concentrated in the 30-50 years old (60.61%). The harm of the first-generation COVID-19 patients is higher than that of secondary cases.",
+            "doc_idx": 27490,
+            "end_idx": 23,
+            "end_pos": 115,
+            "score": 111.08792767412271,
+            "start_idx": 22,
+            "start_pos": 97,
+            "title": "COVID-ABS_f17c6a_transmission and epidemiological characteristics of severe acute respiratory syndrome coronavirus 2 (sars-cov-2) infected pneumonia (covid-19): preliminary evidence obtained in comparison with 2003-sars"
+        },
+        {
+            "answer": "The COVID-19 virus",
+            "context": "The World Health Organization (WHO) has issued a warning that, although the 2019 novel coronavirus (COVID-19) from Wuhan City (China), is not pandemic, it should be contained to prevent the global spread. The COVID-19 virus was known earlier as 2019-nCoV. As of 12 February 2020, WHO reported 45,171 cases and 1115 deaths related to COVID-19. COVID-19 is similar to Severe Acute Respiratory Syndrome coronavirus (SARS-CoV) virus in its pathogenicity, clinical spectrum, and epidemiology. Comparison of the genome sequences of COVID-19, SARS-CoV, and Middle East Respiratory Syndrome coronavirus (MERS-CoV) showed that COVID-19 has a better sequence identity with SARS-CoV compared to MERS CoV. However, the amino acid sequence of COVID-19 differs from other coronaviruses specifically in the regions of 1ab polyprotein and surface glycoprotein or S-protein. Although several animals have been speculated to be a reservoir for COVID-19, no animal reservoir has been already confirmed. COVID-19 causes COVID-19 disease that has similar symptoms as SARS-CoV. Studies suggest that the human receptor for COVID-19 may be angiotensin-converting enzyme 2 (ACE2) receptor similar to that of SARS-CoV. The nucleocapsid (N) protein of COVID-19 has nearly 90% amino acid sequence identity with SARS-CoV. The N protein antibodies of SARS-CoV may cross react with COVID-19 but may not provide cross-immunity. In a similar fashion to SARS-CoV, the N protein of COVID-19 may play an important role in suppressing the RNA interference (RNAi) to overcome the host defense. This mini-review aims at investigating the most recent trend of COVID-19.",
+            "doc_idx": 11103,
+            "end_idx": 54,
+            "end_pos": 223,
+            "score": 107.32799929047027,
+            "start_idx": 49,
+            "start_pos": 205,
+            "title": "COVID-ABS_6e939c_covid-19 (novel coronavirus 2019) - recent trends"
+        },
+        {
+            "answer": "may cross react with COVID-19 but may not provide cross-immunity.",
+            "context": "The World Health Organization (WHO) has issued a warning that, although the 2019 novel coronavirus (COVID-19) from Wuhan City (China), is not pandemic, it should be contained to prevent the global spread. The COVID-19 virus was known earlier as 2019-nCoV. As of 12 February 2020, WHO reported 45,171 cases and 1115 deaths related to COVID-19. COVID-19 is similar to Severe Acute Respiratory Syndrome coronavirus (SARS-CoV) virus in its pathogenicity, clinical spectrum, and epidemiology. Comparison of the genome sequences of COVID-19, SARS-CoV, and Middle East Respiratory Syndrome coronavirus (MERS-CoV) showed that COVID-19 has a better sequence identity with SARS-CoV compared to MERS CoV. However, the amino acid sequence of COVID-19 differs from other coronaviruses specifically in the regions of 1ab polyprotein and surface glycoprotein or S-protein. Although several animals have been speculated to be a reservoir for COVID-19, no animal reservoir has been already confirmed. COVID-19 causes COVID-19 disease that has similar symptoms as SARS-CoV. Studies suggest that the human receptor for COVID-19 may be angiotensin-converting enzyme 2 (ACE2) receptor similar to that of SARS-CoV. The nucleocapsid (N) protein of COVID-19 has nearly 90% amino acid sequence identity with SARS-CoV. The N protein antibodies of SARS-CoV may cross react with COVID-19 but may not provide cross-immunity. In a similar fashion to SARS-CoV, the N protein of COVID-19 may play an important role in suppressing the RNA interference (RNAi) to overcome the host defense. This mini-review aims at investigating the most recent trend of COVID-19.",
+            "doc_idx": 11103,
+            "end_idx": 353,
+            "end_pos": 1395,
+            "score": 104.52871364021698,
+            "start_idx": 338,
+            "start_pos": 1330,
+            "title": "COVID-ABS_6e939c_covid-19 (novel coronavirus 2019) - recent trends"
+        }
+    ],
+    "time": 519
+}

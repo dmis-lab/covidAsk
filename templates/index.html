@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-149582119-3"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-149582119-3');
+    </script>
+    <!-- Header starts -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <script src="files/js/jquery.min.js"></script>
+    <script src="files/js/jquery.easing.min.js"></script>
+    <script src="files/js/bootstrap.min.js"></script>
+    <script src="files/js/sb-admin-2.min.js"></script>
+    <!-- <script src="js/bootstrap.min.js"></script> -->
+
+    <!-- <link rel="stylesheet" href="css/bootstrap.min.css"> -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:200,200i&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="files/css/all.min.css">
+    <link rel="stylesheet" href="files/css/sb-admin-2.min.css">
+    <link rel="stylesheet" href="files/css/default.css">
+    <link rel="shortcut icon" href="files/images/favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Header ends -->
+
+    <link rel="stylesheet" href="files/css/index.css">
+
+    <title>covidAsk</title>
+    <!-- Script here if needed. ex: googletagmanager -->
+  </head>
+  <body id='page-top'>
+    <div class="myWrapper" id="wrapper">
+      <div class="d-flex flex-column" id="content-wrapper">
+        <div class="" id="content">
+          <nav class="navbar fixed-top navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+            <div class="container-fluid">
+              <a href="/" class="navbar-brand ml-2">
+                Home
+              </a>
+              <!-- <a href="/" class="navbar-brand">
+                <h1 class="h2 mb-0 text-gray-800">covidsearch</h1>
+              </a> -->
+              <ul class="navbar-nav ml-auto">
+                <li class="nav-item my_nav_item">
+                  <a href="https://github.com/dmis-lab/covidAsk" class="nav-link" target="_blank" >Github</a>
+                </li>
+                <li class="nav-item my_nav_item">
+                  <a href="javascript:void(0);" class="nav-link" onclick="t_r();">Resources</a>
+                </li>
+              </ul>
+            </div>
+          </nav>
+          <div class="container mb-4 myLanding" id="_myLanding">
+            <div class="row mb-3">
+              <div class="col-xl-12 mx-auto text-center">
+                <span class="mybrand font-italic">covidAsk</span>
+                <br>
+                <span class="align-top">Last updated: 2020.04.16</span>
+              </div>
+            </div>
+            <div class="row">
+              <form name="search" id="search-form" action="./search" method="get">
+                <div class="col-sm-12 col-md-10 col-lg-8 mx-auto mb-5">
+                  <div class="form-row normal-search-form">
+                    <div class="col-12 col-md-10 mb-2">
+                      <input type="text" id="covid_query_input" name="query" class="form-control bg-white border-1" placeholder="Ask any questions related to COVID-19">
+                    </div>
+                    <div class="col-12 col-md-2 mb-2">
+                      <button type="submit" id="covid_query_button" class="btn btn-block btn-primary">Search</button>
+                    </div>
+                  </div>
+                  <!-- Search strategy selection
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="row">
+                        <div class="col-12 col-md-3 mb-2">
+                          <h1 class='h6'>Search strategy:</h1>
+                        </div>
+                        <div class="col-12 col-md-9 mb-2 form-check">
+                          <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" name="strat" value="dense_first" class="form-check-input" id="strat_dfs" checked>
+                            <label for="strat_dfs">Dense-First</label>
+                          </div>
+                          <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" name="strat" value="sparse_first" class="form-check-input" id="strat_sfs">
+                            <label for="strat_sfs">Sparse-First</label>
+                          </div>
+                          <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" name="strat" value="hybrid" class="form-check-input" id="strat_hybrid">
+                            <label for="strat_hybrid">Hybrid</label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  Strategy selection ends -->
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-9 mx-auto">
+                  <div class="row">
+                    <div class="col-12">
+                      <i>covidAsk</i> provides real-time question answering on 31K COVID-19 related articles. It can answer your question in just a second, and each of its results has relevant biomedical entities highlighted as well. <i>covidAsk</i> provides answers to all 108 questions provided in the <a href="https://pages.semanticscholar.org/coronavirus-research" target="_blank">COVID-19 Open Research Dataset Challenge</a> along with additional 31 questions from <a href="https://github.com/allenai/Qorona" target="_blank">Google Autocomplete API</a>.
+                      <br>
+            	      <br>
+			Types of queries <i>covidAsk</i> is good at are:
+			<ul>
+				<li>Queries with COVID-19/Coronavirus: <a href="https://covidask.korea.ac.kr/search?query=How+long+is+the+range+of+incubation+periods+for+COVID-19+in+humans%3F">How long is the range of incubation periods for COVID-19 in humans?</a></li>
+				<li>Why questions: <a href="https://covidask.korea.ac.kr/search?query=Why+is+it+so+difficult+to+develop+treatments+for+viral+illnesses%3F">Why is it so difficult to develop treatments for viral illnesses?</a></li>
+				<li>Queries requring detailed information: <a href="https://covidask.korea.ac.kr/search?query=acute+respiratory+distress+syndrome+mortality+rate">acute respiratory distress syndrome mortality rate</a></li>
+			</ul>
+            		      <i>covidAsk</i> is a project by <a href="https://jhyuklee.github.io/" target="_blank">Jinhyuk Lee</a>, <a href="https://www.semanticscholar.org/author/Minbyul-Jeong/147498986" target="_blank">Minbyul Jeong</a>, <a href="https://mjeensung.github.io/resume/" target="_blank">Mujeen Sung</a>, <a href="http://wonjin.info/" target="_blank">Wonjin Yoon</a>, <a href="https://www.semanticscholar.org/author/Yonghwa-Choi/2176967" target="_blank">Yonghwa Choi</a>, <a href="https://www.semanticscholar.org/author/Miyoung-Ko/22670284" target="_blank">Miyoung Ko</a>, <a href="https://github.com/seankala" target="_blank">Seok-Won Lee</a>, and <a href="https://dmis.korea.ac.kr/jaewoo-kang-p-i" target="_blank">Jaewoo Kang</a> at <a href="https://dmis.korea.ac.kr" target="_blank">DMIS Lab</a> of Korea University. See <a href="javascript:void(0);" onclick="t_r();">here</a> for the resources and references. All code will be made public soon accompanied by a technical report.
+                      <br>
+            		      <br>
+            		      This project is an ongoing endeavor and will be updated accordingly. Despite its capability, it still needs more resources to grow and develop. If you are interested in helping covidAsk scale up its capabilities or provide reliable web hosting, please contact <a href="mailto:jinhyuk_lee@korea.ac.kr">jinhyuk_lee@korea.ac.kr</a>.
+                    </div>
+                  </div>
+                  <!-- <div class="row"> -->
+                    <!-- Hyper parameter selection start -->
+		                <!-- <div class="">
+                      <div class="col-12">
+                        <div class="row">
+                          <div class="col-12 col-md-3 mb-2">
+                            <h1 class="h6">Search strategy:</h1>
+                          </div>
+                          <div class="col-12 col-md-9 mb-2 form-check">
+                            <div class="custom-control custom-radio custom-control-inline">
+                              <input type="radio" name="strat" class="form-check-input" value="dense_first" id="strat_dfs" checked>
+                              <label for="strat_dfs">Dense-First</label>
+                            </div>
+                            <div class="custom-control custom-radio custom-control-inline">
+                              <input type="radio" name="strat" class="form-check-input" value="sparse_first" id="strat_sfs">
+                              <label for="strat_sfs">Sparse-First</label>
+                            </div>
+                            <div class="custom-control custom-radio custom-control-inline">
+                              <input type="radio" name="strat" class="form-check-input" value="hybrid" id="strat_hybrid">
+                              <label for="strat_hybrid">Hybrid</label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <div class="row">
+                          <div class="col-12 col-md-3 mb-2">
+                            <h1 class="h6">Max answer length:</h1>
+                          </div>
+                          <div class="col-12 col-md-9 mb-2 form-check">
+                            <div class="custom-control custom-radio custom-control-inline">
+                              <input type="radio" name="max_answer_length" class="form-check-input" value="10" id="max_answer_length_10">
+                              <label for="max_answer_length_10">10</label>
+                            </div>
+                            <div class="custom-control custom-radio custom-control-inline">
+                              <input type="radio" name="max_answer_length" class="form-check-input" value="20" id="max_answer_length_20" checked>
+                              <label for="max_answer_length_20">20</label>
+                            </div>
+                            <div class="custom-control custom-radio custom-control-inline">
+                              <input type="radio" name="max_answer_length" class="form-check-input" value="30" id="max_answer_length_30">
+                              <label for="max_answer_length_30">30</label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <div class="row">
+                          <div class="col-12 col-md-3 mb-2">
+                            <h1 class="h6">Top K:</h1>
+                          </div>
+                          <div class="col-12 col-md-9 mb-2 form-check">
+                            <div class="custom-control custom-radio custom-control-inline">
+                              <input type="radio" name="top_k" class="form-check-input" value="10" id="top_k_10" checked>
+                              <label for="top_k_10">10</label>
+                            </div>
+                            <div class="custom-control custom-radio custom-control-inline">
+                              <input type="radio" name="top_k" class="form-check-input" value="30" id="top_k_30">
+                              <label for="top_k_30">30</label>
+                            </div>
+                            <div class="custom-control custom-radio custom-control-inline">
+                              <input type="radio" name="top_k" class="form-check-input" value="100" id="top_k_100">
+                              <label for="top_k_100">100</label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <div class="row">
+                          <div class="col-12 col-md-3 mb-2">
+                            <h1 class="h6">Nprobe:</h1>
+                          </div>
+                          <div class="col-12 col-md-9 mb-2 form-check">
+                            <div class="custom-control custom-radio custom-control-inline">
+                              <input type="radio" name="nprobe" class="form-check-input" value="256" id="nprobe_256" checked>
+                              <label for="nprobe_256">256</label>
+                            </div>
+                            <div class="custom-control custom-radio custom-control-inline">
+                              <input type="radio" name="nprobe" class="form-check-input" value="512" id="nprobe_512">
+                              <label for="nprobe_512">512</label>
+                            </div>
+                            <div class="custom-control custom-radio custom-control-inline">
+                              <input type="radio" name="nprobe" class="form-check-input" value="1024" id="nprobe_1024">
+                              <label for="nprobe_1024">1024</label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <div class="row">
+                          <div class="col-12 col-md-3 mb-2">
+                            <h1 class="h6">Doc top K:</h1>
+                          </div>
+                          <div class="col-12 col-md-9 mb-2 form-check">
+                            <div class="custom-control custom-radio custom-control-inline">
+                              <input type="radio" name="doc_top_k" class="form-check-input" value="5" id="doc_top_k_5" checked>
+                              <label for="doc_top_k_5">5</label>
+                            </div>
+                            <div class="custom-control custom-radio custom-control-inline">
+                              <input type="radio" name="doc_top_k" class="form-check-input" value="10" id="doc_top_k_10">
+                              <label for="doc_top_k_10">10</label>
+                            </div>
+                            <div class="custom-control custom-radio custom-control-inline">
+                              <input type="radio" name="doc_top_k" class="form-check-input" value="20" id="doc_top_k_20">
+                              <label for="doc_top_k_20">20</label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <div class="row">
+                          <div class="col-12 col-md-3 mb-2">
+                            <h1 class="h6">Sparse weight:</h1>
+                          </div>
+                          <div class="col-12 col-md-9 mb-2 form-check">
+                            <div class="custom-control custom-radio custom-control-inline">
+                              <input type="radio" name="sparse_weight" class="form-check-input" value="0.01" id="sparse_weight_001">
+                              <label for="sparse_weight_001">0.01</label>
+                            </div>
+                            <div class="custom-control custom-radio custom-control-inline">
+                              <input type="radio" name="sparse_weight" class="form-check-input" value="0.05" id="sparse_weight_005" checked>
+                              <label for="sparse_weight_005">0.05</label>
+                            </div>
+                            <div class="custom-control custom-radio custom-control-inline">
+                              <input type="radio" name="sparse_weight" class="form-check-input" value="0.1" id="sparse_weight_01">
+                              <label for="sparse_weight_01">0.1</label>
+                            </div>
+                            <div class="custom-control custom-radio custom-control-inline">
+                              <input type="radio" name="sparse_weight" class="form-check-input" value="0.3" id="sparse_weight_03">
+                              <label for="sparse_weight_03">0.3</label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <div class="row">
+                          <div class="col-12 col-md-3 mb-2">
+                            <h1 class="h6">Aggregate:</h1>
+                          </div>
+                          <div class="col-12 col-md-9 mb-2 form-check">
+                            <div class="custom-control custom-radio custom-control-inline">
+                              <input type="radio" name="aggregate" class="form-check-input" value="True" id="aggregate_true" checked>
+                              <label for="aggregate_true">True</label>
+                            </div>
+                            <div class="custom-control custom-radio custom-control-inline">
+                              <input type="radio" name="aggregate" class="form-check-input" value="False" id="aggregate_false">
+                              <label for="aggregate_false">False</label>
+                            </div>
+                          </div>
+                        </div>
+		                  </div> -->
+                      <!-- Hyper parameter selection ends -->
+                    <!-- </div> -->
+                  <!-- </div> -->
+                </div>
+              </form>
+            </div>
+          </div>
+          <hr>
+          <div class="container-fluid col-sm-12 col-md-9 col-lg-8 mb-3" id="examples_container">
+            <!-- TODO: read samples -->
+
+            <!-- Examples -->
+          </div>
+
+          <hr>
+
+
+          <div class="container-fluid col-sm-12 col-md-9 col-lg-8 mb-2" id="resources_container">
+            <div class="row">
+              <div class="col-12">
+                <h1 class='h4 mb-1'>Resources</h1>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <ul>
+                  <li>Biomedical NER and normalization results on 31k CORD-19 abstracts (2020-03-20 dump) <a href="https://drive.google.com/file/d/1pyKJxGZgeLWknxMyOIGYAsOowZ6KlxHJ/view" target="_blank">[link]</a></li>
+                  <li>APIs and code for large-scale question answering model [coming soon]</li>
+                  <li>APIs and code for biomedical NER and normalization model [coming soon]</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="container-fluid col-sm-12 col-md-9 col-lg-8 mb-3">
+            <div class="row">
+              <div class="col-12">
+                <h1 class='h4 mb-1'>References</h1>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <ul>
+                  <li><i>Real-Time Open-Domain Question Answering with Dense-Sparse Phrase Index</i>, M Seo*, J Lee*, T Kwiatkowski, AP Parikh, A Farhadi, H Hajishirzi, Annual Meeting of the Association for Computational Linguistics (ACL), 2019 <a href="https://www.aclweb.org/anthology/P19-1436/" target="_blank">[paper]</a> <a href="https://github.com/uwnlp/denspi" target="_blank">[code]</a></li>
+                  <li><i>Contextualized Sparse Representation with Rectified N-Gram Attention for Open-Domain Question Answering</i>, J Lee, M Seo, H Hajishirzi, J Kang, arXiv preprint arXiv:1911.02896, 2019 <a href="https://arxiv.org/abs/1911.02896" target="_blank">[paper]</a></li>
+                  <li><i>BioBERT: a pre-trained biomedical language representation model for biomedical text mining</i>, J Lee*, W Yoon*, S Kim, D Kim, S Kim, CH So, J Kang, Bioinformatics 36 (4), 1234-1240, 2020 <a href="https://academic.oup.com/bioinformatics/advance-article/doi/10.1093/bioinformatics/btz682/5566506" target="_blank">[paper]</a> <a href="https://github.com/dmis-lab/biobert" target="_blank">[code]</a></li>
+                  <li><i>A Neural Named Entity Recognition and Multi-Type Normalization Tool for Biomedical Text Mining</i>, D Kim, J Lee, CH So, H Jeon, M Jeong, Y Choi, W Yoon, M Sung, J Kang, IEEE Access 7, 73729-73740, 2019 <a href="https://doi.org/10.1109/ACCESS.2019.2920708" target="_blank">[paper]</a> <a href="https://github.com/dmis-lab/bern" target="_blank">[code]</a></li>
+                  <li><i>Pre-trained Language Model for Biomedical Question Answering</i>, W Yoon, J Lee, D Kim, M Jeong, J Kang, BioASQ Workshop, ECML PKDD, 2019 <a href="https://arxiv.org/abs/1909.08229" target="_blank">[paper]</a> <a href="https://github.com/dmis-lab/bioasq-biobert" target="_blank">[code]</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer class="sticky-footer">
+      <div class="container my-auto">
+
+        <div class="col-lg-12">
+          <a href="https://cs.korea.edu/cs_en/index.do" target="_blank"><img class="footer_logo" src="files/images/logo_eng.gif" alt="" /></a>
+          <a href="https://dmis.korea.ac.kr" target="_blank"><img class="footer_logo" src="files/images/logo_dmis.png" alt="" /></a>
+        </div>
+    </footer>
+  </body>
+  <script type="text/javascript">
+    $("#search-form").on("submit", function(event){
+      var query = $.trim($("#covid_query_input").val());
+      if (query == "") {
+        alert("Please enter query.");
+        return false;
+      }
+    });
+
+    function t_r(){
+      var t = document.getElementById("resources_container");
+      t.scrollIntoView();
+    }
+
+    function clickExample(obj){
+      var query_text = obj.firstElementChild.firstElementChild.textContent;
+      $("#covid_query_input").val(query_text);
+      $("#covid_query_input").focus();
+    }
+
+    function get_examples(){
+      $.get("/get_examples", function(data){
+        // console.log('yes');
+        $("#examples_container").html(data);
+      });
+    }
+
+    $(function(){
+      get_examples();
+    });
+  </script>
+</html>

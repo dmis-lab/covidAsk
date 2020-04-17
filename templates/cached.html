@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <!-- Header starts -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <script src="files/js/jquery.min.js"></script>
+    <script src="files/js/jquery.easing.min.js"></script>
+    <script src="files/js/bootstrap.min.js"></script>
+    <script src="files/js/sb-admin-2.min.js"></script>
+    <!-- <script src="js/bootstrap.min.js"></script> -->
+
+    <!-- <link rel="stylesheet" href="css/bootstrap.min.css"> -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
+    <link rel="stylesheet" href="files/css/all.min.css">
+    <link rel="stylesheet" href="files/css/sb-admin-2.min.css">
+    <link rel="stylesheet" href="files/css/default.css">
+    <link rel="shortcut icon" href="files/images/favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Header ends -->
+
+    <link rel="stylesheet" href="files/css/search.css">
+
+    <title>covidsearch</title>
+    <!-- Script here if needed. ex: googletagmanager -->
+  </head>
+  <body id='page-top'>
+    <div class="myWrapper" id="wrapper">
+      <div class="d-flex flex-column" id="content-wrapper">
+        <div class="" id="content">
+          <nav class="navbar fixed-top navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+            <div class="container-fluid">
+              <a href="/" class="navbar-brand ml-2">
+                Home
+              </a>
+              <ul class="navbar-nav ml-auto">
+                <li class="nav-item my_nav_item">
+                  <a href="https://github.com/dmis-lab/covidsearch" class="nav-link" target="_blank" >Github</a>
+                </li>
+              </ul>
+            </div>
+          </nav>
+          <div class="container mb-2 myLanding" id="_myLanding">
+            <div class="row">
+              <div class="col-sm-12 col-md-10 col-lg-8 mx-auto">
+                <form name="search" id="search-form" action="./search" method="get">
+                  <div class="form-row normal-search-form">
+                    <div class="col-12 col-md-10 mb-1">
+                      <input type="text" id="covid_query_input" name="query" class="form-control bg-white border-1" value="{{query}}">
+                    </div>
+                    <div class="col-12 col-md-2 mb-1">
+                      <button type="submit" id="covid_query_button" class="btn btn-block btn-primary">Search</button>
+                    </div>
+                    <div class="col-12 mb-0">
+                      <small>Latency: {{latency}}ms (cached result)</small>
+                    </div>
+
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <div class="container-fluid col-sm-12 col-md-9 col-lg-8 mb-3" id="results_container">
+            <div class="row">
+              <div class="col-12 mb-1 text-right">
+                <small>
+                  <span class='legends legend_denspi'>Answers</span>
+                  <span class='legends legend_related'>Related Entities</span>
+                </small>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                {% if res['denspi']|length %}
+                  {% for item in res['denspi'] %}
+                    <div class="card mb-3 shadow border-left-primary">
+                      <div class="card-body">
+                        <div class="item_abstracts">
+                          <div class="row">
+                            <div class="col-12">
+                              <p>
+                                {{item['parsed_text']|safe}}
+                              </p>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-sm-12 col-md-10">
+                              <small>
+                                <span class="item_title_span">
+                                  {% if 'pubmed_id' in item['metadata'] %}
+                                    {% if item['metadata']['pubmed_id'] != 'NaN' %}
+                                      <a href="https://www.ncbi.nlm.nih.gov/pubmed/{{item['metadata']['pubmed_id']}}" target="_blank">
+                                    {% endif %}
+                                  {% endif %}
+                                  {% if 'title_original' in item['metadata'] %}
+                                    {{item['metadata']['title_original']}}.
+                                  {% else %}
+                                    {{item['title']}}.
+                                  {% endif %}
+                                  {% if 'pubmed_id' in item['metadata'] %}
+                                    {% if item['metadata']['pubmed_id'] != 'NaN' %}
+                                      </a>
+                                    {% endif %}
+                                  {% endif %}
+                                </span>
+                                {% if 'journal' in item['metadata'] %}
+                                  {% if item['metadata']['journal'] != 'NaN' %}
+                                    <br>
+                                    <span class="item_journal_span">{{item['metadata']['journal']}}.</span>
+                                  {% endif %}
+                                {% endif %}
+                              </small>
+                            </div>
+                            <div class="col-sm-12 col-md-2 text-right publish_time_div">
+                              <span class="algin-text-bottom">
+                                {% if 'publish_time' in item['metadata'] %}
+                                  {% if item['metadata']['publish_time']['month'] != '' %}
+                                    {{item['metadata']['publish_time']['month']}},
+                                  {% endif %}
+                                  {% if item['metadata']['publish_time']['year'] != '' %}
+                                    {{item['metadata']['publish_time']['year']}}
+                                  {% endif %}
+                                {% endif %}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  {% endfor %}
+                {% else %}
+                  <div class="no_res_box text-center">
+                    <p class="lead mb-5">No answers found.</p>
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-12">
+                {% if res['best']|length %}
+                  {% for item in res['best'] %}
+                    <div class="card mb-3 shadow border-left-danger">
+                      <div class="card-header py-3">
+                        <div class="row">
+                          <div class="col-sm-12 col-md-12">
+                            <h1 class='h5 m-0 font-weight-bold text-danger'>{{item['answer']}}</h1>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="card-body">
+                        <div class="item_abstracts">
+                          <div class="row">
+                            <div class="col-12">
+                              <small>{{item['parsed_text']|safe}}</small>
+                            </div>
+                          </div>
+                          {% if 'metadata' in item %}
+                            {% if item['metadata']|length %}
+                              <small>
+                              <br>
+                              </small>
+                              <div class="row">
+                                <div class="col-sm-12 col-md-10">
+                                  {% if 'pubmed_id' in item['metadata'] %}
+                                    <small>
+                                      <span"item_title_span">
+                                        {% if item['metadata']['pubmed_id'] != 'NaN' %}
+                                          <a href="https://www.ncbi.nlm.nih.gov/pubmed/{{item['metadata']['pubmed_id']}}" target="_blank">
+                                        {% endif %}
+                                        {% if 'title_original' in item['metadata'] %}
+                                          {{item['metadata']['title_original']}}
+                                        {% elif 'title' in item and item['title'] != '' %}
+                                          {{item['title']}}
+                                        {% else %}
+                                          PMID: {{item['metadata']['pubmed_id']}}
+                                        {% endif %}
+                                        {% if item['metadata']['pubmed_id'] != 'NaN' %}
+                                          </a>
+                                        {% endif %}
+                                      </span>
+                                    </small>
+                                  {% endif %}
+                                  <!-- <span class="item_authors_span">
+                                    {% if 'authors' in item['metadata'] %}
+                                      {{item['metadata']['authors']}}.
+                                    {% endif %}
+                                  </span> -->
+                                  {% if 'journal' in item['metadata'] %}
+                                    {% if item['metadata']['journal'] != 'NaN' %}
+                                      <br>
+                                      <small>
+                                        <span class="item_journal_span">{{item['metadata']['journal']}}.</span>
+                                      </small>
+                                    {% endif %}
+                                  {% endif %}
+                                </div>
+                                <div class="col-sm-12 col-md-2 text-right publish_time_div">
+                                  {% if 'publish_time' in item['metadata'] %}
+
+                                    <span class="align-text-bottom">
+                                      {% if 'publish_time' in item['metadata'] %}
+                                        {% if item['metadata']['publish_time']['month'] != '' %}
+                                          {{item['metadata']['publish_time']['month']}},
+                                        {% endif %}
+                                        {% if item['metadata']['publish_time']['year'] != '' %}
+                                          {{item['metadata']['publish_time']['year']}}
+                                        {% endif %}
+                                      {% endif %}
+                                    </span>
+
+                                  {% endif %}
+                                </div>
+                              </div>
+                            {% endif %}
+                          {% endif %}
+                        </div>
+                      </div>
+                    </div>
+                  {% endfor %}
+                {% else %}
+                  <div class="no_res_box text-center">
+                    <p class="lead mb-5">No related entities found.</p>
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </body>
+  <script type="text/javascript">
+    $("#search-form").on("submit", function(event){
+      var query = $.trim($("#covid_query_input").val());
+      if (query == "") {
+        alert("Please enter query.");
+        return false;
+      }
+    });
+  </script>
+</html>

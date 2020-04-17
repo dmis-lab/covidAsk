@@ -1,0 +1,168 @@
+.myLanding{
+  padding-top: 12rem;
+  padding-bottom: 0rem;
+
+}
+
+.mybrand{
+  /* font-family: 'Dancing Script', cursive; */
+  font-family: 'Montserrat', sans-serif;
+  font-size: 3.5rem;
+}
+
+.my_nav_item a{
+  color: rgba(0, 0, 0, 0.7) !important;
+}
+
+.covid_example_links{
+  max-height: 20rem;
+  overflow-y: auto;
+}
+
+.covid_example_links hr{
+  margin-top: 0.6rem;
+  margin-bottom: 0.6rem;
+}
+
+.google_example_links{
+  max-height: 30rem;
+  overflow-y: auto;
+}
+
+.google_example_links hr{
+  margin-top: 0.6rem;
+  margin-bottom: 0.6rem;
+}
+
+.paraphrase_example_header_line{
+  border-top: 3px solid #868796;
+}
+.paraphrase_example_header{
+  font-weight: bold;
+}
+
+.questions_header{
+  padding-top: 2rem;
+}
+/*
+a:hover{
+  text-decoration: none;
+} */
+
+.mySearchInput{
+  font-size: 1rem!important;
+}
+
+.modal-body{
+  background-color: #FFFFFF;
+  overflow: hidden;
+}
+
+.mode-change-btn{
+  width: 180px;
+}
+
+.text-query{
+  color: #f6c23e;
+}
+
+em{
+  background-color: #f6c23e;
+  /* font-weight: bold; */
+  color:#000000;
+  /* color: #FFFFFF; */
+}
+
+
+
+#adv_btn_container{
+  overflow: hidden;
+}
+
+#adv_btn_container::before,
+#adv_btn_container::after{
+  background-color: #aaaaaa;
+  content: "";
+  display: inline-block;
+  height: 1px;
+  position: relative;
+  vertical-align: middle;
+  width: 50%;
+}
+
+#adv_btn_container::before{
+  right: 0.5em;
+  margin-left: -50%;
+}
+
+#adv_btn_container::after{
+  left: 0.5em;
+  margin-right: -50%;
+}
+
+#adv_btn{
+  cursor: pointer;
+}
+
+/* #adv_search_form_box{
+  display: none;
+} */
+
+/* .hide{
+  display: none !important;
+} */
+
+.adv_closed #adv_closed_arrow {
+  display: inline-block;
+}
+.adv_closed #adv_opened_arrow {
+  display: none;
+}
+
+.adv_opened #adv_closed_arrow {
+  display: none;
+}
+.adv_opened #adv_opened_arrow {
+  display: inline-block;
+}
+
+.item_description p.collapse:not(.show) {
+  height: 3em;
+  overflow: hidden;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.item_description p.collapsing {
+  min-height: 3em !important;
+}
+
+.item_description a.collapsed:after {
+  content: '+ Read more';
+}
+
+.item_description a:not(.collapsed):after {
+  content: '- Read less';
+}
+
+.graph-container{
+  padding-bottom:57%;
+  position:relative;
+}
+
+.graph-by-boss{
+  position: absolute;
+  left: 0; top:0; right: 0; bottom: 0;
+  width:100%;
+  height: 100%;
+}
+
+.graph-by-boss p{
+  position:absolute;
+  width:100%;
+  text-align: center;
+  top:50%;
+  margin-top: -0.5rem;
+}

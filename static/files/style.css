@@ -1,0 +1,7 @@
+html { position: relative; min-height: 100%; }
+body { margin-bottom: 60px; }
+.footer { position: absolute; bottom: 0; width: 100%; height: 40px; line-height: 15px; background-color: #f5f5f5; padding-top: 5px; font-size: 12px; text-align: center;}
+label, footer { user-select: none; }
+.list-group-item:first-of-type { background-color: #e0f2f1; color: #00695c; }
+#korea_univ_logo_li{ position:absolute; right:10px; }
+#korea_univ_logo{ height:40px; }

@@ -1,0 +1,38 @@
+.myLanding{
+  padding-top: 6rem;
+  padding-bottom: 0rem;
+}
+
+
+em{
+  background-color: #f6c23e;
+  /* font-weight: bold; */
+  color:#000000;
+  /* color: #FFFFFF; */
+}
+
+.covid_entity{
+  color: #e74a3b;
+}
+
+.query_entities{
+  color: #1cc88a;
+}
+
+.my_nav_item a{
+  color: rgba(0, 0, 0, 0.7) !important;
+}
+
+.legends{
+  padding: 0 0.3rem;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.legend_denspi{
+  border-left: 2px solid #4e73df;
+}
+
+.legend_related{
+  border-left: 2px solid #e74a3b;
+}

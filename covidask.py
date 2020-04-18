@@ -457,7 +457,6 @@ class covidAsk(object):
         return query_vec, input_ids, sparse_uni, sparse_bi
 
     def query(self, query, search_strategy='hybrid'):
-        from requests.packages.urllib3.exceptions import InsecureRequestWarning
         requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
         params = {'query': query, 'strat': search_strategy}
         res = requests.get(self.get_address(self.index_port) + '/api', params=params, verify=False)
@@ -472,6 +471,7 @@ class covidAsk(object):
 
     def batch_query(self, batch_query, max_answer_length=20, start_top_k=1000, mid_top_k=100, top_k=10, doc_top_k=5,
                     nprobe=64, sparse_weight=0.05, search_strategy='hybrid'):
+        requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
         post_data = {
             'query': json.dumps(batch_query),
             'max_answer_length': max_answer_length,
@@ -483,7 +483,7 @@ class covidAsk(object):
             'sparse_weight': sparse_weight,
             'strat': search_strategy,
         }
-        res = requests.post(self.get_address(self.index_port) + '/batch_api', data=post_data)
+        res = requests.post(self.get_address(self.index_port) + '/batch_api', data=post_data, verify=False)
         if res.status_code != 200:
             logger.info('Wrong behavior %d' % res.status_code)
         try:
@@ -629,8 +629,8 @@ class covidAsk(object):
                 sparse_weight=args.sparse_weight,
                 search_strategy=args.search_strategy,
             )
-            prediction = [[ret['answer'] for ret in out][:3] for out in result['ret']]
-            evidence = [[ret['context'][ret['sent_start']:ret['sent_end']] for ret in out][:3] for out in result['ret']]
+            prediction = [[ret['answer'] for ret in out] for out in result['ret']]
+            evidence = [[ret['context'][ret['sent_start']:ret['sent_end']] for ret in out] for out in result['ret']]
             predictions += prediction
             evidences += evidence
         self.evaluate_results(predictions, qids, questions, answers, args, evidences=evidences)

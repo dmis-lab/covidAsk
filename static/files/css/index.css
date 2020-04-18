@@ -4,6 +4,16 @@
 
 }
 
+.example_prebox{
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.example_prebox code{
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
 .mybrand{
   /* font-family: 'Dancing Script', cursive; */
   font-family: 'Montserrat', sans-serif;

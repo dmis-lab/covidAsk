@@ -65,14 +65,18 @@ To make your own phrase dumps with different articles, run `create_dump.sh`. Mak
 ```bash
 $ ./create_dump.sh
 ```
-This will create a new phrase dump under `dumps_new/$MODEL_$DATA` which can be used for hosting covidAsk.
+This will create a new phrase dump under `dumps_new/$MODEL_$DATA`. Note that it will take approximately 1 hour when using `data/2020-04-10`. See log files in `logs/` to check if dumping is done. After the dumping, you also need to run `./create_index.sh` to make tfidf vectors of documents and paragraphs, and MIPS for phrase vectors.
+```bash
+$ ./create_index.sh
+```
+Before running, please change the directories in `create_index.sh` accordingly.
 
 ## Hosting
 To serve your own covidAsk, use `serve.sh` script.
 ```bash
 $ ./serve.sh
 ```
-This will host a new server in localhost with the specified port (default `$PORT`: 80). You will also need to serve query encoder (default `$Q_PORT`: 9010) and the metadata (default `$D_PORT`: 9020) at separate ports. Note that the model used for query encoding should be the same as the model that created the phrase dump. We also use biomedical entity search engine, [BEST](https://best.korea.ac.kr), to provide further information regarding the entities in the query.
+This will host a new server in localhost with the specified port (default `$PORT`: 9030). You will also need to serve query encoder (default `$Q_PORT`: 9010) and the metadata (default `$D_PORT`: 9020) at separate ports. Note that the model used for query encoding should be the same as the model that created the phrase dump. If you want to change the phrase dump to what you have created, change `$DUMP_DIR` to the new phrase dump (e.g., `DUMP_DIR=dumps_new/denspi_2020-04-10`) and `--doc_ranker_name` used in `d_serve` to `$DATA-tfidf-ngram=2-hash=16777216-tokenizer=simple.npz`. We also use biomedical entity search engine, [BEST](https://best.korea.ac.kr), to provide further information regarding the entities in the query.
 
 Once you properly setup the server, you can ask queries with a simple python coding:
 ```python

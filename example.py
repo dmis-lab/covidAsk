@@ -8,7 +8,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     # Server ports
     parser.add_argument('--base_ip', default='http://localhost', type=str)
-    parser.add_argument('--index_port', default='8000', type=str)
+    parser.add_argument('--index_port', default='9030', type=str)
 
     # Search Hyperparameters
     parser.add_argument('--max_answer_length', default=20, type=int)

@@ -86,7 +86,7 @@ from covidask import covidAsk
 covidask = covidAsk(index_port='9030')
 
 # Ask a question to covidAsk
-query = 'Is there concrete evidence for the presence of asymptomatic transmissions?
+query = "Is there concrete evidence for the presence of asymptomatic transmissions?"
 result = covidask.query(query)
 print([r['answer'] for r in result['ret']])
 ```

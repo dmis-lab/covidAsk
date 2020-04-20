@@ -16,7 +16,7 @@ def covidAsk(query):
     outs = json.loads(res.text)
     return outs
 
-query = 'Is there concrete evidence for the presence of asymptomatic transmissions?'
+query = "Is there concrete evidence for the presence of asymptomatic transmissions?"
 results = covidAsk(query)
 
 # Top 10 phrase answers from covidAsk

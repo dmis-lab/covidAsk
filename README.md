@@ -47,7 +47,7 @@ This downloads all required resources (18GB) to your current directory. `data` d
 We previde two pre-processed versions of [CORD-19 abstracts](https://pages.semanticscholar.org/coronavirus-research) which will be used to make phrase dumps of DenSPI. We additionally extracted biomedical named entities using a multitask version of [BERN](https://bern.korea.ac.kr) and linked them into Concept Unique IDs using BioSyn (Sung et al., ACL 2020; will be open-sourced soon). Note that the format of pre-processed datasets is the same as SQuAD but with additional keys.
 * Pre-processed 37k CORD-19 abstracts with extracted biomedical entities (`data/2020-04-10`) \[[link](https://drive.google.com/file/d/1tt-tgXjKIu5hH750rJvEbZDAiz1Tj5Rt/view?usp=sharing)\]
 * Pre-processed 31k CORD-19 abstracts with extracted biomedical entities (2020-03-20 dump) \[[link](https://drive.google.com/file/d/1pyKJxGZgeLWknxMyOIGYAsOowZ6KlxHJ/view)\]
-* 74 sample queries with annotated answers from Kaggle, CDC, and WHO (`data/eval`)
+* 74 sample questions with annotated answers from Kaggle, CDC, and WHO (`data/eval`)
 
 ## Model
 We use [DenSPI](https://www.aclweb.org/anthology/P19-1436/) as our base model for question answering. DenSPI supports a real-time question answering on a large unstructured corpus. To train your own DenSPI, see [here](https://github.com/uwnlp/denspi/). Our version of DenSPI is also trained with learnable sparse representations (Lee et al., ACL 2020; will be open-sourced soon). We provide two pretrained DenSPI as follows:
@@ -78,19 +78,19 @@ $ ./serve.sh
 ```
 This will host a new server in localhost with the specified port (default `$PORT`: 9030). You will also need to serve query encoder (default `$Q_PORT`: 9010) and the metadata (default `$D_PORT`: 9020) at separate ports. Note that the model used for query encoding should be the same as the model that created the phrase dump. If you want to change the phrase dump to what you have created, change `$DUMP_DIR` to the new phrase dump (e.g., `DUMP_DIR=dumps_new/denspi_2020-04-10`) and `--doc_ranker_name` used in `d_serve` to `$DATA-tfidf-ngram=2-hash=16777216-tokenizer=simple.npz`. We also use biomedical entity search engine, [BEST](https://best.korea.ac.kr), to provide further information regarding the entities in the query.
 
-Once you properly setup the server, you can ask queries with a simple python coding:
+Once you properly setup the server, you can ask questions with a simple python coding:
 ```python
 from covidask import covidAsk
 
 # Set $PORT
 covidask = covidAsk(index_port='8000')
 
-# Ask question to covidAsk
+# Ask a question to covidAsk
 query = 'Is there concrete evidence for the presence of asymptomatic transmissions?
 result = covidask.query(query)
 print([r['answer'] for r in result['ret']])
 ```
-See `exapmle.py` for more search options.
+See `example.py` for more search options.
 
 ## Evaluation
 We manually created a small evaluation set consisting of 74 questions regarding COVID-19 from Kaggle, CDC and WHO. Use `data/eval/kaggle_cdc_who_augmented.json` for the evaluation. You can make API calls to evaluate the server as:

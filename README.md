@@ -61,7 +61,7 @@ We use the 2020-04-10 CORD-19 dataset for making the phrase dumps. We provide tw
 * 2020-04-10 with DenSPI (SQuAD) - `dumps/denspi_2020-04-10`
 * 2020-04-10 with DenSPI (SQuAD + NQ) - `dumps/denspi-nq_2020-04-10`
 
-To make your own phrase dumps with different articles, run `create_dump.sh`. Make sure that the paths for pre-trained DenSPI and pre-processed datasets are pointing the right directories.
+To make your own phrase dumps with different articles, run `create_dump.sh`. If you are going to use one of the provided phrase dumps above, you can skip this part and go to the Hosting section. Make sure that the paths for pre-trained DenSPI and pre-processed datasets are pointing the right directories.
 ```bash
 $ ./create_dump.sh
 ```

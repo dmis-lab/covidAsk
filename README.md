@@ -37,11 +37,11 @@ $ conda activate covidAsk
 Note that our code is mostly based on [DenSPI](https://github.com/uwnlp/denspi) and [DrQA](https://github.com/facebookresearch/DrQA).
 
 ## Download
-We provide pre-processed CORD-19 datasets, pre-trained QA models, and their phrase dumps.
+We provide pre-processed CORD-19 datasets, pre-trained QA models, and their phrase dumps. Download required files from [here](https://drive.google.com/open?id=1ft6_EAU1XtcBeCLmwkGXhemewppOs_SO) and run `tar --xvzf datasets.tar.gz`. Or, you can run:
 ```bash
 $ ./download.sh
 ```
-This downloads all required resources (18GB) to your current directory. `data` directory has pre-processed datasets and evaluation dataset, `models` directory has pre-trained models, and `dumps` directory has phrase dumps obtained by the pre-trained models.
+Note that this script will not work if multiple users are downloading the file at the same time. This downloads all required resources (18GB) to your current directory. `data` directory has pre-processed datasets and evaluation dataset, `models` directory has pre-trained models, and `dumps` directory has phrase dumps obtained by the pre-trained models.
 
 ## Data
 We previde two pre-processed versions of [CORD-19 abstracts](https://pages.semanticscholar.org/coronavirus-research) which will be used to make phrase dumps of DenSPI. We additionally extracted biomedical named entities using a multitask version of [BERN](https://bern.korea.ac.kr) and linked them into Concept Unique IDs using BioSyn (Sung et al., ACL 2020; will be open-sourced soon). Note that the format of pre-processed datasets is the same as SQuAD but with additional keys.

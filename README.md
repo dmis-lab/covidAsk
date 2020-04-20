@@ -65,7 +65,7 @@ To make your own phrase dumps with different articles, run `create_dump.sh`. Mak
 ```bash
 $ ./create_dump.sh
 ```
-This will create a new phrase dump under `dumps_new/$MODEL_$DATA`. Note that it will take approximately 1 hour when using `data/2020-04-10`. See log files in `logs/` to check if dumping is done. After the dumping, you also need to run `./create_index.sh` to make tfidf vectors of documents and paragraphs, and MIPS for phrase vectors.
+This will create a new phrase dump under `dumps_new/$MODEL_$DATA`. Note that it will take approximately 1 hour when using `data/2020-04-10`. See log files in `logs/` to check if dumping is done. After the dumping, you need to run `create_index.sh` to make tfidf vectors of documents and paragraphs, and MIPS for phrase vectors.
 ```bash
 $ ./create_index.sh
 ```
@@ -83,7 +83,7 @@ Once you properly setup the server, you can ask questions with a simple python c
 from covidask import covidAsk
 
 # Set $PORT
-covidask = covidAsk(index_port='8000')
+covidask = covidAsk(index_port='9030')
 
 # Ask a question to covidAsk
 query = 'Is there concrete evidence for the presence of asymptomatic transmissions?

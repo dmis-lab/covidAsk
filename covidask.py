@@ -314,7 +314,7 @@ class covidAsk(object):
                 aggregate = params['a_g']
             )
             out['ret'] = out['ret'][0]
-            out['ret'] = out['ret'][:3] # Get top 3 only
+            # out['ret'] = out['ret'][:3] # Get top 3 only
             b_out = self.best_search(query, kcw_path=args.examples_path)
 
             res, query, query_info = get_search(inverted_examples, search_examples, query_entity_ids, query, out, b_out)

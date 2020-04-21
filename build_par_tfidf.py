@@ -7,57 +7,10 @@ import numpy as np
 import scipy.sparse as sp
 import logging
 
+from tfidf_doc_ranker import TfidfDocRanker
 from tqdm import tqdm
-from drqa import retriever
-from drqa.retriever import utils
 
 logger = logging.getLogger(__name__)
-
-RANKER_PATH = os.path.join(
-    os.path.expanduser('~'),
-    'github/DrQA/data/wikipedia/docs-tfidf-ngram=2-hash=16777216-tokenizer=simple.npz'
-)
-
-
-class MyTfidfDocRanker(retriever.get_class('tfidf')):
-    def text2spvec(self, query, data_val=False):
-        """Create a sparse tfidf-weighted word vector from query.
-
-        tfidf = log(tf + 1) * log((N - Nt + 0.5) / (Nt + 0.5))
-        """
-        # Get hashed ngrams
-        words = self.parse(utils.normalize(query))
-        wids = [utils.hash(w, self.hash_size) for w in words]
-
-        if len(wids) == 0:
-            if self.strict:
-                raise RuntimeError('No valid word in: %s' % query)
-            else:
-                logger.warning('No valid word in: %s' % query)
-                return sp.csr_matrix((1, self.hash_size))
-
-        # Count TF
-        wids_unique, wids_counts = np.unique(wids, return_counts=True)
-        tfs = np.log1p(wids_counts)
-
-        # Count IDF
-        Ns = self.doc_freqs[wids_unique]
-        idfs = np.log((self.num_docs - Ns + 0.5) / (Ns + 0.5))
-        idfs[idfs < 0] = 0
-
-        # TF-IDF
-        data = np.multiply(tfs, idfs)
-
-        if data_val:
-            return data, wids_unique
-
-        # One row, sparse csr matrix
-        indptr = np.array([0, len(wids_unique)])
-        spvec = sp.csr_matrix(
-            (data, wids_unique, indptr), shape=(1, self.hash_size)
-        )
-
-        return spvec
 
 
 def dump_tfidf(ranker, dumps, names, args):
@@ -77,7 +30,7 @@ def dump_tfidf(ranker, dumps, names, args):
                 paras = [doc.attrs['context'][doc['word2char_start'][ps]:doc['word2char_end'][pe-1]] 
                          for (ps, pe) in para_startend]
                 # old_paras = [k.strip() for k in doc.attrs['context'].split('[PAR]')]
-                para_data = [ranker.text2spvec(para, data_val=True) for para in paras]
+                para_data = [ranker.text2spvec(para, val_idx=True) for para in paras]
                 for p_idx, data in enumerate(para_data):
                     if str(p_idx) in dg:
                         print('%s exists; replacing' % str(p_idx))
@@ -99,7 +52,7 @@ def get_args():
     parser.add_argument('--dump_path', default=None, type=str)
     parser.add_argument('--start', default=0, type=int)
     parser.add_argument('--end', default=1, type=int)
-    parser.add_argument('--ranker_path', default=RANKER_PATH, type=str)
+    parser.add_argument('--ranker_path', default='', type=str)
     parser.add_argument('--nfs', default=False, action='store_true')
     return parser.parse_args()
 
@@ -120,7 +73,7 @@ def main():
     phrase_dumps = [h5py.File(path, 'r') for path in dump_paths]
 
     ranker = None
-    ranker = MyTfidfDocRanker(
+    ranker = TfidfDocRanker(
         tfidf_path=args.ranker_path,
         strict=False
     )

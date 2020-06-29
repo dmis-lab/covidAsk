@@ -1,6 +1,6 @@
 # <p align=center><i>covidAsk</i></p>
 <p align="center"><img width="90%" src="images/covidAsk.png" /></p>
-This repository provides code for covidAsk (https://covidask.korea.ac.kr), a real-time biomedical question answering system on COVID-19 articles. We currently support 1) dumping your own article set using our pre-trained models and 2) hosting a server like covidAsk on your machine. This project is done by the members of DMIS Lab at Korea University.
+This repository provides code for covidAsk (https://covidask.korea.ac.kr), a real-time biomedical question answering system on COVID-19 articles. We currently support 1) dumping your own article set using our pre-trained models and 2) hosting a server like covidAsk on your machine. Please see our [technical report](https://openreview.net/forum?id=Wssn20iNf6j) for more details. This project is done by the members of DMIS Lab at Korea University.
 
 ## Quick Start
 With simple python requests, you can get answers from covidAsk.
@@ -110,7 +110,6 @@ This will save a prediction file into `pred/test_interrogative_updated.pred` wit
 ```
 
 ## Reference
-Technical report of our work will be arxived soon with following bibtex.
 ```bibtex
 @article{lee2020answering,
   title={Answering Questions on COVID-19 in Real-Time},

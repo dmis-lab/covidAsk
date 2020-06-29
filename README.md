@@ -114,7 +114,7 @@ Technical report of our work will be arxived soon with following bibtex.
 ```bibtex
 @article{lee2020answering,
   title={Answering Questions for COVID-19 in Real-Time},
-  author={Lee, Jinhyuk and Yi, Seon S. and Jeong, Minbyul and Sung, Mujeen and Yoon, Wonjin and Sung, Mujeen and Choi, Yonghwa and Ko, Miyoung and Kang, Jaewoo},
+  author={Lee, Jinhyuk and Yi, Seon S. and Jeong, Minbyul and Sung, Mujeen and Yoon, Wonjin and Choi, Yonghwa and Ko, Miyoung and Kang, Jaewoo},
   journal={arxiv},
   year={2020}
 }

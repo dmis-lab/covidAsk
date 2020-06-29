@@ -30,13 +30,15 @@ logging.basicConfig(format='%(asctime)s - %(levelname)s - %(name)s -   %(message
                     datefmt='%m/%d/%Y %H:%M:%S',
                     level=logging.INFO)
 logger = logging.getLogger(__name__)
+id2example = None
 
 
 def tqdm(*args, mininterval=5.0, **kwargs):
     return tqdm_(*args, mininterval=mininterval, **kwargs)
 
 
-def get_metadata(id2example, features, results, max_answer_length, do_lower_case, verbose_logging):
+def get_metadata(features, results, max_answer_length, do_lower_case, verbose_logging):
+    global id2example
     start = np.concatenate([result.start[1:len(feature.tokens) - 1] for feature, result in zip(features, results)],
                            axis=0)
     end = np.concatenate([result.end[1:len(feature.tokens) - 1] for feature, result in zip(features, results)], axis=0)
@@ -170,13 +172,12 @@ def write_hdf5(all_examples, all_features, all_results,
                dense_offset=None, dense_scale=None, sparse_offset=None, sparse_scale=None, use_sparse=False):
     assert len(all_examples) > 0
 
-
     id2feature = {feature.unique_id: feature for feature in all_features}
-    id2example = {id_: all_examples[id2feature[id_].example_index] for id_ in id2feature}
+    id2example_ = {id_: all_examples[id2feature[id_].example_index] for id_ in id2feature}
 
     def add(inqueue_, outqueue_):
         for item in iter(inqueue_.get, None):
-            args = list(item[:3]) + [max_answer_length, do_lower_case, verbose_logging, filter_threshold]
+            args = list(item[:2]) + [max_answer_length, do_lower_case, verbose_logging, filter_threshold]
             out = pool_func(args)
             outqueue_.put(out)
 
@@ -223,10 +224,19 @@ def write_hdf5(all_examples, all_features, all_results,
     results = []
     inqueue = Queue(maxsize=500)
     outqueue = Queue(maxsize=500)
-    write_p = Thread(target=write, args=(outqueue,))
-    p = Thread(target=add, args=(inqueue, outqueue))
-    write_p.start()
-    p.start()
+    # write_p = Thread(target=write, args=(outqueue,))
+    # p = Thread(target=add, args=(inqueue, outqueue))
+    NUM_THREAD = 20
+    in_p_list = [Process(target=add, args=(inqueue, outqueue)) for _ in range(NUM_THREAD)]
+    out_p_list = [Thread(target=write, args=(outqueue,)) for _ in range(NUM_THREAD)]
+    global id2example
+    id2example = id2example_
+    # write_p.start()
+    # p.start()
+    for in_p in in_p_list:
+        in_p.start()
+    for out_p in out_p_list:
+        out_p.start()
 
     start_time = time()
     for count, result in enumerate(tqdm(all_results, total=len(all_features))):
@@ -235,22 +245,37 @@ def write_hdf5(all_examples, all_features, all_results,
         condition = len(features) > 0 and example.par_idx == 0 and feature.doc_span_index == 0
 
         if condition:
-            in_ = (id2example, features, results)
-            logger.info('inqueue size: %d, outqueue size: %d' % (inqueue.qsize(), outqueue.qsize()))
+            # in_ = (id2example, features, results)
+            in_ = (features, results)
+            # logger.info('inqueue size: %d, outqueue size: %d' % (inqueue.qsize(), outqueue.qsize()))
             inqueue.put(in_)
+            prev_ex = id2example[results[0].unique_id]
+            if prev_ex.doc_idx % 200 == 0:
+                logger.info(f'saving {len(features)} features from doc {prev_ex.title} (doc_idx: {prev_ex.doc_idx})')
+                logger.info(
+                    '[%d/%d at %.1f second] ' % (count + 1, len(all_features), time() - start_time) +
+                    '[inqueue, outqueue size: %d vs %d]' % (inqueue.qsize(), outqueue.qsize())
+                )
             # add(id2example, features, results)
             features = [feature]
             results = [result]
         else:
             features.append(feature)
             results.append(result)
-        if count % 500 == 0:
-            logger.info('%d/%d at %.1f' % (count + 1, len(all_features), time() - start_time))
-    in_ = (id2example, features, results)
+        # if count % 500 == 0:
+        #     logger.info('%d/%d at %.1f' % (count + 1, len(all_features), time() - start_time))
+    # in_ = (id2example, features, results)
+    in_ = (features, results)
     inqueue.put(in_)
-    inqueue.put(None)
-    p.join()
-    write_p.join()
+    for _ in range(NUM_THREAD):
+        inqueue.put(None)
+
+    # p.join()
+    # write_p.join()
+    for in_p in in_p_list:
+        in_p.join()
+    for out_p in out_p_list:
+        out_p.join()
 
 
 def get_question_results(question_examples, query_eval_features, question_dataloader, device, model):

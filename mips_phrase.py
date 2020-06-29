@@ -34,6 +34,7 @@ class MIPS(object):
         self.phrase_dumps = [h5py.File(path, 'r') for path in self.phrase_dump_paths]
 
         # Load tfidf dump
+        '''
         assert os.path.isdir(tfidf_dump_dir), tfidf_dump_dir
         self.tfidf_dump_paths = sorted(
             [os.path.join(tfidf_dump_dir, name) for name in os.listdir(tfidf_dump_dir) if 'hdf5' in name]
@@ -43,7 +44,8 @@ class MIPS(object):
             tfidf_dump_ranges = [list(map(int, name.split('_')[0].split('-'))) for name in tfidf_dump_names]
             assert tfidf_dump_ranges == self.dump_ranges
         self.tfidf_dumps = [h5py.File(path, 'r') for path in self.tfidf_dump_paths]
-        logger.info(f'using doc ranker functions: {doc_rank_fn["index"]}')
+        '''
+        logger.info(f'using doc ranker functions: {doc_rank_fn["doc_scores"]}')
         self.doc_rank_fn = doc_rank_fn
         if dump_only:
             return
@@ -178,7 +180,7 @@ class MIPS(object):
             sp_scores = ((val_map * val_map_) * match).sum([1, 2])
         return sp_scores.cpu().numpy()
 
-    def search_dense(self, q_texts, query_start, start_top_k, nprobe, sparse_weight=0.05):
+    def search_dense(self, q_texts, query_start, start_top_k, nprobe, sparse_weight=0.05, meta_scale=100):
         batch_size = query_start.shape[0]
         self.start_index.nprobe = nprobe
 
@@ -198,17 +200,17 @@ class MIPS(object):
         self.num_docs_list.append(num_docs)
 
         # Doc-level sparse score
-        b_doc_scores = self.doc_rank_fn['index'](q_texts, doc_idxs.tolist()) # Index
+        b_doc_scores = self.doc_rank_fn['doc_scores'](q_texts, doc_idxs.tolist(), meta_scale=meta_scale) # Index
         for b_idx in range(batch_size):
             start_scores[b_idx] += np.array(b_doc_scores[b_idx]) * sparse_weight
 
         return (doc_idxs, start_idxs), start_scores
 
-    def search_sparse(self, q_texts, query_start, doc_top_k, start_top_k, sparse_weight=0.05):
+    def search_sparse(self, q_texts, query_start, doc_top_k, sparse_weight=0.05, meta_scale=100):
         batch_size = query_start.shape[0]
 
         # Reduce search space by doc scores
-        top_doc_idxs, top_doc_scores = self.doc_rank_fn['top_docs'](q_texts, doc_top_k) # Top docs
+        top_doc_idxs, top_doc_scores = self.doc_rank_fn['top_docs'](q_texts, doc_top_k, meta_scale=meta_scale) # Top docs
 
         # For each item, add start scores
         b_doc_idxs = []
@@ -235,18 +237,15 @@ class MIPS(object):
             b_doc_idxs.append(doc_idxs)
             b_start_idxs.append(start_idxs)
             b_scores.append(scores)
-        # mean_val = [sum(scores)/len(scores) for scores in b_scores]
-        # mean_val = sum(mean_val) / len(mean_val)
-        mean_val = 0
 
-        # If start_top_k is larger than nonnegative doc_idxs, we need to cut them later
+        # Pad by max_phrase
         for doc_idxs, start_idxs, scores in zip(b_doc_idxs, b_start_idxs, b_scores):
             doc_idxs += [-1] * (max_phrases - len(doc_idxs))
             start_idxs += [-1] * (max_phrases - len(start_idxs))
             scores += [-10**9] * (max_phrases - len(scores))
 
         doc_idxs, start_idxs, scores = np.stack(b_doc_idxs), np.stack(b_start_idxs), np.stack(b_scores)
-        return (doc_idxs, start_idxs), scores, mean_val
+        return (doc_idxs, start_idxs), scores
 
     def batch_par_scores(self, q_texts, q_sparses, doc_idxs, start_idxs, sparse_weight=0.05, mid_top_k=100):
         # Reshape for sparse
@@ -270,6 +269,8 @@ class MIPS(object):
             para_idxs.append(curr_idx)
         para_startend = [para_bound[para_idx] for para_bound, para_idx in zip(para_bounds, para_idxs)]
 
+        # There's only a single para, so we skip par-level tfidf
+        '''
         # 1) TF-IDF based paragraph score
         q_spvecs = self.doc_rank_fn['spvec'](q_texts) # Spvec
         qtf_ids = [np.array(q) for q in q_spvecs[1]]
@@ -280,6 +281,7 @@ class MIPS(object):
         ptf_ids = [data['idxs'][:] for data in tfidf_groups]
         ptf_vals = [data['vals'][:] for data in tfidf_groups]
         tf_scores = self.sparse_bmm(qtf_ids, qtf_vals, ptf_ids, ptf_vals) * sparse_weight
+        '''
 
         # 2) Sparse vectors based paragraph score
         q_ids, q_unis, q_bis = q_sparses
@@ -303,34 +305,34 @@ class MIPS(object):
         p_bids = [np.array([a*MAXV+b for a, b in zip(p_id[:-1], p_id[1:])]) for p_id in p_ids]
         sp_scores += self.sparse_bmm(q_bids, q_bis, p_bids, p_bis)
 
-        return np.reshape(tf_scores + sp_scores, [num_queries, -1])
+        # return np.reshape(tf_scores + sp_scores, [num_queries, -1])
+        return np.reshape(sp_scores, [num_queries, -1])
 
     def search_start(self, query_start, sparse_query, q_texts=None,
                      nprobe=16, doc_top_k=5, start_top_k=100, mid_top_k=20, top_k=5,
-                     search_strategy='dense_first', sparse_weight=0.05, no_para=False):
+                     search_strategy='dense_first', sparse_weight=0.05, no_para=False, meta_scale=100):
 
         assert self.start_index is not None
         query_start = query_start.astype(np.float32)
         batch_size = query_start.shape[0]
         # start_time = time()
 
-        # 1) Branch based on the strategy (start_top_k) + doc_score
+        # 1) start_top_k with dense scores
         if search_strategy == 'dense_first':
             (doc_idxs, start_idxs), start_scores = self.search_dense(
-                q_texts, query_start, start_top_k, nprobe, sparse_weight
+                q_texts, query_start, start_top_k, nprobe, sparse_weight, meta_scale
             )
         elif search_strategy == 'sparse_first':
-            (doc_idxs, start_idxs), start_scores, _ = self.search_sparse(
-                q_texts, query_start, doc_top_k, start_top_k, sparse_weight
+            (doc_idxs, start_idxs), start_scores = self.search_sparse(
+                q_texts, query_start, doc_top_k, sparse_weight, meta_scale
             )
         elif search_strategy == 'hybrid':
             (doc_idxs, start_idxs), start_scores = self.search_dense(
-                q_texts, query_start, start_top_k, nprobe, sparse_weight
+                q_texts, query_start, start_top_k, nprobe, sparse_weight, meta_scale
             )
-            (doc_idxs_, start_idxs_), start_scores_, sparse_mean = self.search_sparse(
-                q_texts, query_start, doc_top_k, start_top_k, sparse_weight
+            (doc_idxs_, start_idxs_), start_scores_ = self.search_sparse(
+                q_texts, query_start, doc_top_k, sparse_weight, meta_scale
             )
-
             # There could be a duplicate but it's difficult to remove
             doc_idxs = np.concatenate([doc_idxs, doc_idxs_], -1)
             start_idxs = np.concatenate([start_idxs, start_idxs_], -1)
@@ -352,7 +354,8 @@ class MIPS(object):
         # start_time = time()
 
         # Para-level sparse score
-        if not no_para:
+        # if not no_para:
+        if True:
             par_scores = self.batch_par_scores(q_texts, sparse_query, doc_idxs, start_idxs, sparse_weight, mid_top_k)
             start_scores = np.stack(start_scores) + par_scores
             start_scores = [s for s in start_scores]
@@ -411,20 +414,25 @@ class MIPS(object):
         pred_end_idxs = np.stack([each[idx] for each, idx in zip(end_idxs, np.argmax(scores, 1))], 0)  # [Q]
         max_scores = np.max(scores, 1)
 
+        # get back to start scores (ignore end caculation score)
+        max_scores = start_scores
+
         # Calculate doc_meta
         start_chars = [
             group['word2char_start'][group['f2o_start'][start_idx]].item() for start_idx, group in zip(start_idxs, groups)
         ]
-        doc_metas = [self.doc_rank_fn['doc_meta'](group.attrs['title']) for group in groups]
+        doc_metas = self.doc_rank_fn['doc_meta']([group.attrs['title'] for group in groups])
 
+        # Get sent, context start/end
         sent_start_pos = []
         sent_end_pos = []
         context_starts = []
         context_ends = []
         for start_char, doc_meta, group in zip(start_chars, doc_metas, groups):
-            # TODO: assumes a single para in doc
             para_idx = 0
-            if 'paragraphs' not in doc_meta:
+            # TODO: assuming a single para in doc
+            # if 'paragraphs' not in doc_meta:
+            if 'context_sent_idx' not in doc_meta['paragraphs'][0]:
                 sent_start_pos.append(start_char)
                 sent_end_pos.append(start_char)
                 context_starts.append(0)
@@ -450,12 +458,12 @@ class MIPS(object):
                 'end_pos': (group['word2char_end'][group['f2o_end'][end_idx]].item() if len(group['word2char_end']) > 0
                     else group['word2char_start'][group['f2o_start'][start_idx]].item() + 1),
                 'start_idx': start_idx, 'end_idx': end_idx, 'score': score,
-                'metadata': self.doc_rank_fn['doc_meta'](group.attrs['title'])}
-               for doc_idx, group, start_idx, end_idx, score, c_start, c_end, sent_start, sent_end in zip(
+                'metadata': meta}
+               for doc_idx, group, start_idx, end_idx, score, c_start, c_end, sent_start, sent_end, meta in zip(
                                                                     doc_idxs.tolist(), groups, start_idxs.tolist(),
                                                                     pred_end_idxs.tolist(), max_scores.tolist(),
                                                                     context_starts, context_ends,
-                                                                    sent_start_pos, sent_end_pos)]
+                                                                    sent_start_pos, sent_end_pos, doc_metas)]
         for each in out:
             each['answer'] = each['context'][each['start_pos']:each['end_pos']]
         out = [self.adjust(each) for each in out]
@@ -488,7 +496,8 @@ class MIPS(object):
         for topk_item in batch_item:
             new_topk = {}
             for item in topk_item:
-                doc_idx = str(item['doc_idx'])
+                # doc_idx = str(item['doc_idx'])
+                doc_idx = str(item['metadata']['cord_uid'])
                 if doc_idx not in new_topk:
                     new_topk[doc_idx] = item
                 else:
@@ -503,7 +512,7 @@ class MIPS(object):
     def search(self, query, sparse_query, q_texts=None,
                nprobe=256, doc_top_k=5, start_top_k=1000, mid_top_k=100, top_k=10,
                search_strategy='dense_first', filter_=False, aggregate=False, return_idxs=False,
-               max_answer_length=20, sparse_weight=0.05, no_para=False):
+               max_answer_length=20, sparse_weight=0.05, no_para=False, meta_scale=100):
 
         # Search start
         start_scores, doc_idxs, start_idxs = self.search_start(
@@ -518,6 +527,7 @@ class MIPS(object):
             search_strategy=search_strategy,
             sparse_weight=sparse_weight,
             no_para=no_para,
+            meta_scale=meta_scale
         )
 
         # start_time = time()

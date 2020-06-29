@@ -94,6 +94,10 @@ def get_count_matrix(args, file_path):
     global DOC2IDX
     doc_ids = {}
     doc_metas = {}
+    year_score = {}
+    if_score = {}
+    uid2docid = {}
+    pmid2docid = {}
     nan_cnt = 0
     for filename in sorted(os.listdir(file_path)):
         print(filename)
@@ -105,7 +109,10 @@ def get_count_matrix(args, file_path):
                 while title in doc_ids:
                     title += f'_{kk}'
                     kk += 1
+                uid2docid[article['cord_uid']] = len(doc_ids)
                 doc_ids[title] = ' '.join([par['context'] for par in article['paragraphs']])
+                # year_score[title] = 0 if article['publish_time']['year'] == '2020' else -1e15 # Penalty if not 2020
+                # if_score[title] = float(article['IF']) if article['IF'] != 'NaN' else 0
 
                 # Keep metadata
                 doc_meta = {}
@@ -122,14 +129,56 @@ def get_count_matrix(args, file_path):
                             doc_meta[key].append(para_meta)
                 if not pd.isnull(article.get('pubmed_id', np.nan)):
                     doc_metas[str(article['pubmed_id'])] = doc_meta # For BEST (might be duplicate)
+                    pmid2docid[str(article['pubmed_id'])] = len(doc_ids) - 1
                 else:
                     nan_cnt += 1
                 doc_metas[article['title']] = doc_meta
 
     DOC2IDX = {doc_id: i for i, doc_id in enumerate(doc_ids)}
+    IDX2DOC = {i: doc_id for i, doc_id in enumerate(doc_ids)}
     print('doc ids:', len(DOC2IDX))
     print('doc metas:', len(doc_metas), 'with nan', str(nan_cnt))
     # assert len(doc_ids)*2 == len(doc_metas) + nan_cnt
+
+    # Make score matrix
+    year_matrix = np.array([score for score in year_score.values()])
+    if_matrix = np.array([score for score in if_score.values()])
+    # assert len(year_matrix) == len(DOC2IDX) == len(if_matrix)
+
+    # Covidex scores
+    covidex_trec_question = json.load(open('data/ir_scores/covidex_trec_question.json'))
+    covidex_trec_query = json.load(open('data/ir_scores/covidex_trec_query.json'))
+    covidex_evalquery = json.load(open('data/ir_scores/covidex_evalquery.json'))
+    covidex_all = covidex_trec_question + covidex_trec_query + covidex_evalquery
+    print(f'Saving {len(covidex_all)} query results from Covidex')
+    covidex_dict = [{}, {}]
+    for result in covidex_all:
+        covidex_dict[0][result['question']] = [
+            uid2docid[cord_uid] for cord_uid in result['cord_uid'] if cord_uid in uid2docid
+        ]
+        covidex_dict[1][result['question']] = [
+            score for score, cord_uid in zip(result['score'], result['cord_uid']) if cord_uid in uid2docid
+        ]
+        tmp = [title for cord_uid, title in zip(result['cord_uid'], result['title']) if cord_uid in uid2docid]
+        # assert all([title.lower() in IDX2DOC[docid] for title, docid in zip(tmp, covidex_dict[result['question']])])
+
+    # Covidex BEST
+    best_trec_query = json.load(open('data/ir_scores/best_trec_query.json'))
+    best_evalquery = json.load(open('data/ir_scores/best_evalquery.json'))
+    best_all = best_trec_query + best_evalquery
+    print(f'Saving {len(best_all)} query results from BEST')
+    best_dict = [{}, {}]
+    for result in best_all:
+        best_dict[0][result['question']] = [
+            pmid2docid[pmid] for pmids in result['pmid'] for pmid in pmids if pmid in pmid2docid
+        ]
+        best_dict[1][result['question']] = [ # Dummy score
+            pmid2docid[pmid] for pmids in result['pmid'] for pmid in pmids if pmid in pmid2docid
+        ]
+    meta_score = {
+        'covidex': covidex_dict,
+        'best': best_dict,
+    }
 
     # Setup worker pool
     tok_class = SimpleTokenizer
@@ -160,7 +209,7 @@ def get_count_matrix(args, file_path):
         (data, (row, col)), shape=(args.hash_size, len(doc_ids))
     )
     count_matrix.sum_duplicates()
-    return count_matrix, (DOC2IDX, doc_ids, doc_metas)
+    return count_matrix, (DOC2IDX, doc_ids, doc_metas, meta_score)
 
 
 # ------------------------------------------------------------------------------

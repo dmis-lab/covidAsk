@@ -51,19 +51,30 @@ class TfidfDocRanker(object):
         """Convert doc_index --> doc_id"""
         return self.doc_dict[1][doc_index]
 
-    def get_doc_meta(self, pmid_or_title):
+    def doc_meta(self, pmid_or_title):
         """Convert pmid --> doc_meta"""
-        if len(self.doc_dict) == 3:
+        if len(self.doc_dict) >= 3:
             return self.doc_dict[2].get(pmid_or_title, {})
         else:
             return {}
 
-    def closest_docs(self, query, k=1):
+    def batch_doc_meta(self, pmids, num_workers=None):
+        with ThreadPool(num_workers) as threads:
+            results = threads.map(self.doc_meta, pmids)
+        return results
+
+    def closest_docs(self, query, meta, meta_scale, k=1):
         """Closest docs by dot product between query and documents
         in tfidf weighted word vector space.
         """
         spvec = self.text2spvec(query)
         res = spvec * self.doc_mat
+
+        # Add meta scores
+        if len(self.doc_dict) == 4:
+            for m in meta:
+                if query in self.doc_dict[3][m][0]:
+                    res[0,self.doc_dict[3][m][0][query]] += np.array(self.doc_dict[3][m][1][query]) * meta_scale
 
         if len(res.data) <= k:
             o_sort = np.argsort(-res.data)
@@ -76,31 +87,40 @@ class TfidfDocRanker(object):
         doc_ids = [int(i) for i in res.indices[o_sort]] # TODO if none is returned?
         return doc_ids, doc_scores
 
-    def batch_closest_docs(self, queries, k=1, num_workers=None):
+    def batch_closest_docs(self, queries, meta=['covidex'], meta_scale=100, k=1, num_workers=None):
         """Process a batch of closest_docs requests multithreaded.
         Note: we can use plain threads here as scipy is outside of the GIL.
         """
         with ThreadPool(num_workers) as threads:
-            closest_docs = partial(self.closest_docs, k=k)
+            closest_docs = partial(self.closest_docs, meta=meta, meta_scale=meta_scale, k=k)
             results = threads.map(closest_docs, queries)
         return results
 
-    def doc_scores(self, query_doc):
+    def doc_scores(self, query_doc, meta, meta_scale):
         """Get doc scores by dot product between query and documents
         in tfidf weighted word vector space.
         """
         query, doc_idx = query_doc
         spvec = self.text2spvec(query)
         res = spvec * self.doc_mat
-        scores = res[0,doc_idx].toarray().tolist()[0]
-        return scores
 
-    def batch_doc_scores(self, queries, doc_idxs, num_workers=None):
+        # Add meta scores
+        if len(self.doc_dict) == 4:
+            for m in meta:
+                if query in self.doc_dict[3][m][0]:
+                    res[0,self.doc_dict[3][m][0][query]] += np.array(self.doc_dict[3][m][1][query]) * meta_scale
+                # scores += self.doc_dict[3][m][doc_idx]
+
+        scores = res[0,doc_idx].toarray()[0]
+        return scores.tolist()
+
+    def batch_doc_scores(self, queries, doc_idxs, meta=['covidex'], meta_scale=100, num_workers=None):
         """Process a batch of doc_scores requests multithreaded.
         Note: we can use plain threads here as scipy is outside of the GIL.
         """
         with ThreadPool(num_workers) as threads:
-            results = threads.map(self.doc_scores, zip(queries, doc_idxs))
+            doc_scores = partial(self.doc_scores, meta=meta, meta_scale=meta_scale)
+            results = threads.map(doc_scores, zip(queries, doc_idxs))
         return results
 
     def parse(self, query):

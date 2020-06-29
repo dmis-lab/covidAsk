@@ -55,6 +55,7 @@ class SquadExample(object):
     def __str__(self):
         return self.__repr__()
 
+    '''
     def __repr__(self):
         s = ""
         s += "qas_id: %s" % (tokenization.printable_text(self.qas_id))
@@ -65,7 +66,7 @@ class SquadExample(object):
         if self.start_position:
             s += ", end_position: %d" % (self.end_position)
         return s
-
+    '''
 
 class ContextFeatures(object):
     """A single set of features of data."""

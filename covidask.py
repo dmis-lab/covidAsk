@@ -8,6 +8,7 @@ import numpy as np
 import requests
 import logging
 import math
+import ssl
 import best
 import copy
 import nltk
@@ -24,9 +25,10 @@ from requests_futures.sessions import FuturesSession
 from tqdm import tqdm
 from collections import namedtuple
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
+from transformers import AutoConfig
 
 from serve_utils import load_caches, parse_example, get_cached, get_search
-from modeling import BertConfig, DenSPI
+from modeling import DenSPI
 from tfidf_doc_ranker import TfidfDocRanker
 from run_denspi import check_diff
 from pre import SquadExample, convert_questions_to_features
@@ -59,22 +61,16 @@ class covidAsk(object):
     def load_query_encoder(self, device, args):
         # Configure paths for query encoder serving
         vocab_path = os.path.join(args.metadata_dir, args.vocab_name)
-        bert_config_path = os.path.join(
-            args.metadata_dir, args.bert_config_name.replace(".json", "") + "_" + args.bert_model_option + ".json"
-        )
 
         # Load pretrained QueryEncoder
-        bert_config = BertConfig.from_json_file(bert_config_path)
-        model = DenSPI(bert_config)
-        if args.parallel:
-            model = torch.nn.DataParallel(model)
-        state = torch.load(args.query_encoder_path, map_location='cpu')
-        try:
-            model.load_state_dict(state['model'])
-            logger.info('load okay')
-        except:
-            model.load_state_dict(state, strict=False)
-            check_diff(model.state_dict(), state['model'])
+        bert_config = AutoConfig.from_pretrained(
+            'bert-base-uncased' if not (args.bert_model_option == 'large_uncased') else 'bert-large-uncased',
+            cache_dir='cache',
+        )
+        model = DenSPI.from_pretrained(
+            args.query_encoder_path,
+            config=bert_config,
+        )
         logger.info('Model loaded from %s' % args.query_encoder_path)
         model.to(device)
 
@@ -103,6 +99,7 @@ class covidAsk(object):
 
         # Define query to vector function
         def query2vec(queries):
+            # queries = [query[:-1] if query.endswith('?') else query for query in queries]
             question_dataloader, question_examples, query_features = self.get_question_dataloader(
                 queries, tokenizer, batch_size=24
             )
@@ -158,7 +155,7 @@ class covidAsk(object):
             idx2id_path=idx2id_path,
             max_norm_path=max_norm_path,
             doc_rank_fn={
-                'index': self.get_doc_scores, 'top_docs': self.get_top_docs, 'doc_meta': self.get_doc_meta,
+                'doc_scores': self.get_doc_scores, 'top_docs': self.get_top_docs, 'doc_meta': self.get_doc_meta,
                 'spvec': self.get_q_spvecs
             },
             cuda=args.cuda, dump_only=dump_only
@@ -174,14 +171,15 @@ class covidAsk(object):
         ]
         query_type = "All Entity Type"
         for ent_type in ent_types:
-            if ent_type in query:
+            if ent_type in query.lower():
                 query_type = ent_type
                 break
 
         # Stopwords and filtering for BEST queries
-        if not os.path.exists(os.path.join(os.path.expanduser('~'), 'nltk_data')):
-            nltk.download('punkt')
+        if not os.path.exists(os.path.join(os.path.expanduser('~'), 'nltk_data/corpora/stopwords')):
             nltk.download('stopwords')
+        if not os.path.exists(os.path.join(os.path.expanduser('~'), 'nltk_data/tokenizers/punkt')):
+            nltk.download('punkt')
         stop_words = set(stopwords.words('english') + ['?'] + ['Why', 'What', 'How', 'Where', 'When', 'Who'])
         entity_set = [
             'COVID-19', 'SARS-CoV-2', 'hypertension', 'diabetes', 'heart', 'disease', 'obese', 'death',
@@ -195,8 +193,10 @@ class covidAsk(object):
         new_query = ''
         for idx, query_token in enumerate(query_tokens):
             if query_token not in stop_words:
-                if query_token in entity_set:
+                if query_token in [e.lower() for e in entity_set]:
                     new_query += query_token + ' '
+        if new_query == '':
+            new_query = 'COVID-19'
 
         # Get BEST result
         q = best.BESTQuery(new_query, noAbsTxt=False, filterObjectName=query_type)
@@ -220,11 +220,12 @@ class covidAsk(object):
             'answer': ''
         }
         outs = []
-        for r_idx, r_ in enumerate(r):
+        metas = self.get_doc_meta([r_['PMIDs'][0] for r_ in r])
+        for r_idx, (r_, meta) in enumerate(zip(r, metas)):
             parsed_result['context'] = r_['abstracts'][0]
             parsed_result['score'] = r_['score']
             parsed_result['answer'] = r_['entityName']
-            parsed_result['metadata'] = self.get_doc_meta(r_['PMIDs'][0])
+            parsed_result['metadata'] = meta
             if len(parsed_result['metadata']) == 0:
                 parsed_result['metadata']['pubmed_id'] = int(r_['PMIDs'][0])
             outs.append(copy.deepcopy(parsed_result))
@@ -233,6 +234,22 @@ class covidAsk(object):
         return {'ret': outs, 'time': int(1000 * (t1 - t0))}
 
     def serve_phrase_index(self, index_port, args):
+        if index_port == '80':
+            app = Flask(__name__, static_url_path='/static', static_folder="static",
+                template_folder="templates")
+            app.config['JSONIFY_PRETTYPRINT_REGULAR'] = False
+            CORS(app)
+            @app.before_request
+            def before_request():
+                if request.url.startswith('http://'):
+                    # url = request.url.replace('http://', 'https://', 1)
+                    code = 301
+                    return redirect('https://covidask.korea.ac.kr', code=code)
+            http_server = HTTPServer(WSGIContainer(app))
+            http_server.listen(index_port)
+            IOLoop.instance().start()
+            return
+
         dev_str = '_dev' if args.develop else ''
         args.examples_path = os.path.join(f'static{dev_str}', args.examples_path)
         args.top10_examples_path = os.path.join(f'static{dev_str}', args.top10_examples_path)
@@ -249,7 +266,7 @@ class covidAsk(object):
         index_example_set, search_examples, inverted_examples, query_entity_ids = parse_example(args)
 
         def batch_search(batch_query, max_answer_length=20, start_top_k=1000, mid_top_k=100, top_k=10, doc_top_k=5,
-                         nprobe=64, sparse_weight=0.05, search_strategy='hybrid', aggregate=False):
+                         nprobe=64, sparse_weight=0.05, search_strategy='dense_first', aggregate=False, meta_scale=10):
             t0 = time()
             outs, _ = self.embed_query(batch_query)()
             start = np.concatenate([out[0] for out in outs], 0)
@@ -263,7 +280,7 @@ class covidAsk(object):
                 query_vec, (input_ids, sparse_uni, sparse_bi), q_texts=batch_query, nprobe=nprobe,
                 doc_top_k=doc_top_k, start_top_k=start_top_k, mid_top_k=mid_top_k, top_k=top_k,
                 search_strategy=search_strategy, filter_=args.filter, max_answer_length=max_answer_length,
-                sparse_weight=sparse_weight, aggregate=aggregate
+                sparse_weight=sparse_weight, aggregate=aggregate, meta_scale=meta_scale
             )
             t1 = time()
             out = {'ret': rets, 'time': int(1000 * (t1 - t0))}
@@ -299,7 +316,9 @@ class covidAsk(object):
                 'd_t_k': int(request.args['doc_top_k']) if 'doc_top_k' in request.args else int(args.doc_top_k),
                 's_w': (float(request.args['sparse_weight']) if 'sparse_weight' in request.args
                         else float(args.sparse_weight)),
-                'a_g': (request.args['aggregate'] == 'True') if 'aggregate' in request.args else True
+                'a_g': (request.args['aggregate'] == 'True') if 'aggregate' in request.args else True,
+                'm_s': float(request.args['meta_scale']) if 'meta_scale' in request.args else 100
+
             }
             logger.info(f'{params["strat"]} search strategy is used.')
 
@@ -311,7 +330,8 @@ class covidAsk(object):
                 search_strategy=params['strat'], # [DFS, SFS, Hybrid]
                 doc_top_k = params['d_t_k'],
                 sparse_weight = params['s_w'],
-                aggregate = params['a_g']
+                aggregate = params['a_g'],
+                meta_scale = params['m_s']
             )
             out['ret'] = out['ret'][0]
             # out['ret'] = out['ret'][:3] # Get top 3 only
@@ -347,6 +367,7 @@ class covidAsk(object):
             doc_top_k = int(request.form['doc_top_k'])
             nprobe = int(request.form['nprobe'])
             sparse_weight = float(request.form['sparse_weight'])
+            meta_scale = float(request.form['meta_scale'])
             strat = request.form['strat']
             out = batch_search(
                 batch_query,
@@ -358,7 +379,8 @@ class covidAsk(object):
                 nprobe=nprobe,
                 sparse_weight=sparse_weight,
                 search_strategy=strat,
-                aggregate=args.aggregate
+                aggregate=args.aggregate,
+                meta_scale=meta_scale
             )
             return jsonify(out)
 
@@ -385,11 +407,12 @@ class covidAsk(object):
         app.config['JSONIFY_PRETTYPRINT_REGULAR'] = False
         CORS(app)
 
-        @app.route('/doc_index', methods=['POST'])
-        def doc_index():
+        @app.route('/doc_scores', methods=['POST'])
+        def doc_scores():
             batch_query = json.loads(request.form['query'])
+            meta_scale = float(request.form['meta_scale'])
             doc_idxs = json.loads(request.form['doc_idxs'])
-            outs = doc_ranker.batch_doc_scores(batch_query, doc_idxs)
+            outs = doc_ranker.batch_doc_scores(batch_query, doc_idxs, meta_scale=meta_scale)
             logger.info(f'Returning {len(outs)} from batch_doc_scores')
             return jsonify(outs)
 
@@ -397,17 +420,18 @@ class covidAsk(object):
         def top_docs():
             batch_query = json.loads(request.form['query'])
             top_k = int(request.form['top_k'])
-            batch_results = doc_ranker.batch_closest_docs(batch_query, k=top_k)
+            meta_scale = float(request.form['meta_scale'])
+            batch_results = doc_ranker.batch_closest_docs(batch_query, meta_scale=meta_scale, k=top_k)
             top_idxs = [b[0] for b in batch_results]
             top_scores = [b[1].tolist() for b in batch_results]
-            logger.info(f'Returning from batch_doc_scores')
+            logger.info(f'Returning from batch_closest_docs')
             return jsonify([top_idxs, top_scores])
 
         @app.route('/doc_meta', methods=['POST'])
         def doc_meta():
-            pmid = request.form['pmid']
-            doc_meta = doc_ranker.get_doc_meta(pmid)
-            # logger.info(f'Returning {len(doc_meta)} metadata from get_doc_meta')
+            batch_pmid = json.loads(request.form['pmid'])
+            doc_meta = doc_ranker.batch_doc_meta(batch_pmid)
+            # logger.info(f'Returning {len(doc_meta)} metadata from batch_doc_meta')
             return jsonify(doc_meta)
 
         @app.route('/text2spvec', methods=['POST'])
@@ -456,7 +480,7 @@ class covidAsk(object):
         logger.info(f'Query reps: {query_vec.shape}, {len(input_ids)}, {len(sparse_uni)}, {len(sparse_bi)}')
         return query_vec, input_ids, sparse_uni, sparse_bi
 
-    def query(self, query, search_strategy='hybrid'):
+    def query(self, query, search_strategy='dense_first'):
         requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
         params = {'query': query, 'strat': search_strategy}
         res = requests.get(self.get_address(self.index_port) + '/api', params=params, verify=False)
@@ -470,7 +494,7 @@ class covidAsk(object):
         return outs
 
     def batch_query(self, batch_query, max_answer_length=20, start_top_k=1000, mid_top_k=100, top_k=10, doc_top_k=5,
-                    nprobe=64, sparse_weight=0.05, search_strategy='hybrid'):
+                    nprobe=64, sparse_weight=0.05, search_strategy='dense_first', meta_scale=10):
         requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
         post_data = {
             'query': json.dumps(batch_query),
@@ -482,6 +506,7 @@ class covidAsk(object):
             'nprobe': nprobe,
             'sparse_weight': sparse_weight,
             'strat': search_strategy,
+            'meta_scale': meta_scale
         }
         res = requests.post(self.get_address(self.index_port) + '/batch_api', data=post_data, verify=False)
         if res.status_code != 200:
@@ -493,12 +518,13 @@ class covidAsk(object):
             logger.info(res.text)
         return outs
 
-    def get_doc_scores(self, batch_query, doc_idxs):
+    def get_doc_scores(self, batch_query, doc_idxs, meta_scale=10):
         post_data = {
             'query': json.dumps(batch_query),
+            'meta_scale': meta_scale,
             'doc_idxs': json.dumps(doc_idxs)
         }
-        res = requests.post(self.get_address(self.doc_port) + '/doc_index', data=post_data)
+        res = requests.post(self.get_address(self.doc_port) + '/doc_scores', data=post_data)
         if res.status_code != 200:
             logger.info('Wrong behavior %d' % res.status_code)
         try:
@@ -508,9 +534,10 @@ class covidAsk(object):
             logger.info(res.text)
         return result
 
-    def get_top_docs(self, batch_query, top_k):
+    def get_top_docs(self, batch_query, top_k, meta_scale=10):
         post_data = {
             'query': json.dumps(batch_query),
+            'meta_scale': meta_scale,
             'top_k': top_k
         }
         res = requests.post(self.get_address(self.doc_port) + '/top_docs', data=post_data)
@@ -523,9 +550,9 @@ class covidAsk(object):
             logger.info(res.text)
         return result
 
-    def get_doc_meta(self, pmid):
+    def get_doc_meta(self, batch_pmid):
         post_data = {
-            'pmid': pmid
+            'pmid': json.dumps(batch_pmid)
         }
         res = requests.post(self.get_address(self.doc_port) + '/doc_meta', data=post_data)
         if res.status_code != 200:
@@ -602,7 +629,7 @@ class covidAsk(object):
                 q_texts=questions[q_idx:q_idx+step], nprobe=args.nprobe,
                 doc_top_k=args.doc_top_k, start_top_k=args.start_top_k, mid_top_k=args.mid_top_k, top_k=args.top_k,
                 search_strategy=args.search_strategy, filter_=args.filter, max_answer_length=args.max_answer_length,
-                sparse_weight=args.sparse_weight, aggregate=args.aggregate
+                sparse_weight=args.sparse_weight, aggregate=args.aggregate, meta_scale=args.meta_scale
             )
             prediction = [[ret['answer'] for ret in out] for out in result]
             predictions += prediction
@@ -628,6 +655,7 @@ class covidAsk(object):
                 nprobe=args.nprobe,
                 sparse_weight=args.sparse_weight,
                 search_strategy=args.search_strategy,
+                meta_scale=args.meta_scale
             )
             prediction = [[ret['answer'] for ret in out] for out in result['ret']]
             evidence = [[ret['context'][ret['sent_start']:ret['sent_end']] for ret in out] for out in result['ret']]
@@ -725,9 +753,128 @@ class covidAsk(object):
         with open(pred_path, 'w') as f:
             json.dump(pred_out, f)
 
+    def eval_sent(self, args):
+        # Load dataset
+        qids, questions, answers = self.load_qa_pairs(args.test_path, args)
+
+        # Run batch_query and evaluate
+        step = args.eval_batch_size
+        predictions = []
+        evidences = []
+        for q_idx in tqdm(range(0, len(questions), step)):
+            result = self.batch_query(
+                questions[q_idx:q_idx+step],
+                max_answer_length=args.max_answer_length,
+                start_top_k=args.start_top_k,
+                mid_top_k=args.mid_top_k,
+                top_k=args.top_k,
+                doc_top_k=args.doc_top_k,
+                nprobe=args.nprobe,
+                sparse_weight=args.sparse_weight,
+                search_strategy=args.search_strategy,
+                meta_scale=args.meta_scale
+            )
+            prediction = [[ret['context'][ret['sent_start']:ret['sent_end']] for ret in out] for out in result['ret']]
+            predictions += prediction
+
+        return self.evaluate_sent_results(predictions, qids, questions, answers, args)
+
+    def eval_sent_inm(self, args):
+        # Load dataset and encode queries
+        qids, questions, answers = self.load_qa_pairs(args.test_path, args)
+        query_vec, input_ids, sparse_uni, sparse_bi = self.embed_all_query(questions)
+
+        # Load MIPS
+        self.mips = self.load_phrase_index(args)
+
+        # Search
+        step = args.eval_batch_size
+        predictions = []
+        for q_idx in tqdm(range(0, len(questions), step)):
+            result = self.mips.search(
+                query_vec[q_idx:q_idx+step],
+                (input_ids[q_idx:q_idx+step], sparse_uni[q_idx:q_idx+step], sparse_bi[q_idx:q_idx+step]),
+                q_texts=questions[q_idx:q_idx+step], nprobe=args.nprobe,
+                doc_top_k=args.doc_top_k, start_top_k=args.start_top_k, mid_top_k=args.mid_top_k, top_k=args.top_k,
+                search_strategy=args.search_strategy, filter_=args.filter, max_answer_length=args.max_answer_length,
+                sparse_weight=args.sparse_weight, aggregate=args.aggregate, meta_scale=args.meta_scale
+            )
+            prediction = [[ret['context'][ret['sent_start']:ret['sent_end']] for ret in out] for out in result]
+            predictions += prediction
+
+        return self.evaluate_sent_results(predictions, qids, questions, answers, args)
+
+    def evaluate_sent_results(self, predictions, qids, questions, answers, args):
+        _start_time = time()
+
+        # Evaluate based on recall in sentence
+        recall_1 = 0.0
+        recall_k = 0.0
+        mrr_k = 0.00
+        prec_k = 0.00
+        pred_out = {}
+        assert len(predictions) == len(answers)
+        for i, (topk_pred, answer) in enumerate(zip(predictions, answers)):
+            single_recall_1 = 0.0
+            single_recall_k = 0.0
+            single_mrr_k = 0.0
+            single_prec_k = 0.0
+            for rank, sent in enumerate(topk_pred):
+                if any([cand.lower() in sent.lower() for cand in answer]):
+                    matched = np.array(answer)[[aa for aa, cand in enumerate(answer) if cand.lower() in sent.lower()]]
+                    predictions[i][rank] = predictions[i][rank] + f' => matched with {matched}'
+                    single_recall_k = 1.0
+                    if rank == 0:
+                        single_recall_1 = 1.0
+
+                    if rank < 50:
+                        single_prec_k += 1.0
+
+                # First MRR occurrence
+                if single_mrr_k == 0 and single_recall_k != 0:
+                    single_mrr_k = 1.0 / (rank+1)
+            single_prec_k = single_prec_k / 50
+            # single_prec_k = single_prec_k / args.top_k
+
+            recall_1 += single_recall_1
+            recall_k += single_recall_k
+            mrr_k += single_mrr_k
+            prec_k += single_prec_k
+
+            pred_out[qids[i]] = {
+                'question': questions[i],
+                'answer': answers[i],
+                'prediction': predictions[i],
+                'recall_1': bool(single_recall_1),
+                'recall_k': bool(single_recall_k),
+                'prec_k': f'{single_prec_k:.3f}',
+                'mrr_k': f'{single_mrr_k:.3f}',
+            }
+
+        recall_1 = recall_1 / len(predictions)
+        recall_k = recall_k / len(predictions)
+        mrr_k = mrr_k / len(predictions)
+        prec_k = prec_k / len(predictions)
+        logger.info(f'Recall@1: {recall_1:.4f}')
+        logger.info(f'Recall@{args.top_k}: {recall_k:.4f}')
+        logger.info(f'Precision@{args.top_k}: {prec_k:.4f}')
+        logger.info(f'MRR@{args.top_k}: {mrr_k:.4f}')
+
+        # Dump predictions
+        if not os.path.exists('pred'):
+            os.makedirs('pred')
+        pred_path = os.path.join('pred', os.path.splitext(os.path.basename(args.test_path))[0] + '.pred')
+        logger.info(f'Saving prediction file to {pred_path}')
+        with open(pred_path, 'w') as f:
+            json.dump(pred_out, f)
+
+        _elapsed_time = time() - _start_time
+        scores = {'recall_1': recall_1, 'recall_k': recall_k, 'mrr_k': mrr_k, 'time': _elapsed_time}
+        return scores
+
     def save_top_k(self, args):
         # Load dataset and encode queries
-        q_ids, questions, _ = self.load_qa_pairs(args.test_path, args)
+        qids, questions, answers = self.load_qa_pairs(args.test_path, args)
         query_vec, input_ids, sparse_uni, sparse_bi = self.embed_all_query(questions)
 
         # Load MIPS
@@ -745,18 +892,77 @@ class covidAsk(object):
                 q_texts=questions[q_idx:q_idx+step], nprobe=args.nprobe,
                 doc_top_k=args.doc_top_k, start_top_k=args.start_top_k, mid_top_k=args.mid_top_k, top_k=args.top_k,
                 search_strategy=args.search_strategy, filter_=args.filter, max_answer_length=args.max_answer_length,
-                sparse_weight=args.sparse_weight, aggregate=args.aggregate
+                sparse_weight=args.sparse_weight, aggregate=args.aggregate, meta_scale=args.meta_scale
             )
             predictions += prediction
             b_out += [self.best_search(query, args.examples_path) for query in questions[q_idx:q_idx+step]]
+
+        self.evaluate_results(predictions, qids, questions, answers, args)
 
         # Dump predictions
         if not os.path.exists('pred'):
             os.makedirs('pred')
         with open(os.path.join('pred', f'top{args.top_k}_{os.path.basename(args.test_path)}'), 'w') as f:
-            json.dump({'data': {q: {'denspi': p, 'best': b} for q, p, b in zip(q_ids, predictions, b_out)}}, f, indent=2)
-        print()
+            json.dump({'data': {q: {'denspi': p, 'best': b} for q, p, b in zip(qids, predictions, b_out)}}, f, indent=2)
+        logger.info('Saving top k done.')
 
+    def eval_trec(self, args):
+        questions = []
+        qids = []
+
+        # Get questions from xml
+        import xml.etree.ElementTree as ET
+        tree = ET.parse(args.test_path)
+        for elem in tree.iter():
+            if elem.tag == 'topic':
+                questions.append(elem.find('question').text)
+                # questions.append(elem.find('query').text)
+                qids.append(elem.attrib['number'])
+        query_vec, input_ids, sparse_uni, sparse_bi = self.embed_all_query(questions)
+
+        # Load MIPS
+        self.mips = self.load_phrase_index(args)
+        args.examples_path = os.path.join('static', args.examples_path)
+
+        # Search
+        step = args.eval_batch_size
+        predictions = []
+        pred_answers = []
+        b_out = []
+        for q_idx in tqdm(range(0, len(questions), step)):
+            prediction = self.mips.search(
+                query_vec[q_idx:q_idx+step],
+                (input_ids[q_idx:q_idx+step], sparse_uni[q_idx:q_idx+step], sparse_bi[q_idx:q_idx+step]),
+                q_texts=questions[q_idx:q_idx+step], nprobe=args.nprobe,
+                doc_top_k=args.doc_top_k, start_top_k=args.start_top_k, mid_top_k=args.mid_top_k, top_k=args.top_k,
+                search_strategy=args.search_strategy, filter_=args.filter, max_answer_length=args.max_answer_length,
+                sparse_weight=args.sparse_weight, aggregate=args.aggregate, meta_scale=args.meta_scale
+            )
+            pred_answers += [[ret['answer'] for ret in out] for out in prediction]
+            predictions += prediction
+
+        # Dump predictions
+        if not os.path.exists('pred'):
+            os.makedirs('pred')
+        out_file = open(os.path.join('pred', os.path.basename(args.test_path) + '.trec'), 'w')
+        for qid, question, prediction in zip(qids, questions, predictions):
+            for rank, pred in enumerate(prediction):
+                out_file.write(f'{qid} Q0 {pred["metadata"]["cord_uid"]} {rank} {pred["score"]} dmis-r1-t1\n')
+        out_file.close()
+        logger.info(f'TREC-COVID result saved in {out_file.name}')
+
+        # Checking errors
+        import subprocess
+        command = f"perl check_sub.pl {out_file.name}"
+        process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)
+        output, error = process.communicate()
+        command = f"cat {os.path.basename(out_file.name)}.errlog"
+        process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)
+        output, error = process.communicate()
+        print(output)
+
+        # Pred log file
+        self.evaluate_results(pred_answers, qids, questions, [['']]*len(questions), args)
 
 
 if __name__ == '__main__':
@@ -766,14 +972,13 @@ if __name__ == '__main__':
     parser.add_argument("--vocab_name", default='vocab.txt', type=str)
     parser.add_argument("--bert_config_name", default='bert_config.json', type=str)
     parser.add_argument("--bert_model_option", default='large_uncased', type=str)
-    parser.add_argument("--parallel", default=False, action='store_true')
     parser.add_argument("--do_case", default=False, action='store_true')
     parser.add_argument("--use_biobert", default=False, action='store_true')
     parser.add_argument("--query_encoder_path", default='models/denspi/1/model.pt', type=str)
     parser.add_argument("--query_port", default='-1', type=str)
 
     # DocRanker
-    parser.add_argument('--doc_ranker_name', default='docs-tfidf-ngram=2-hash=16777216-tokenizer=simple.npz')
+    parser.add_argument('--doc_ranker_name', default='2020-04-10-recent-tfidf-ngram=2-hash=16777216-tokenizer=simple.npz')
     parser.add_argument('--doc_port', default='-1', type=str)
 
     # PhraseIndex
@@ -793,9 +998,10 @@ if __name__ == '__main__':
     parser.add_argument('--doc_top_k', default=5, type=int)
     parser.add_argument('--nprobe', default=256, type=int)
     parser.add_argument('--sparse_weight', default=0.05, type=float)
-    parser.add_argument('--search_strategy', default='hybrid')
-    parser.add_argument('--filter', default=False, action='store_true')
+    parser.add_argument('--meta_scale', default=10, type=float)
+    parser.add_argument('--search_strategy', default='dense_first')
     parser.add_argument('--aggregate', default=False, action='store_true')
+    parser.add_argument('--filter', default=False, action='store_true')
     parser.add_argument('--no_para', default=False, action='store_true')
 
     # Serving options
@@ -811,7 +1017,7 @@ if __name__ == '__main__':
     parser.add_argument('--top_phrase_path', default='top_phrases.json')
 
     # Run mode
-    parser.add_argument('--base_ip', default='http://localhost')
+    parser.add_argument('--base_ip', default='http://163.152.20.133')
     parser.add_argument('--run_mode', default='batch_query')
     parser.add_argument('--cuda', default=False, action='store_true')
     parser.add_argument('--draft', default=False, action='store_true')
@@ -880,6 +1086,15 @@ if __name__ == '__main__':
     elif args.run_mode == 'eval_request':
         covidask.eval_request(args)
 
+    elif args.run_mode == 'eval_sent':
+        covidask.eval_sent(args)
+
+    elif args.run_mode == 'eval_sent_inm':
+        covidask.eval_sent_inm(args)
+
+    elif args.run_mode == 'eval_trec':
+        covidask.eval_trec(args)
+
     elif args.run_mode == 'get_doc_scores':
         queries = [
             'What was the Yuan\'s paper money called?',
@@ -887,13 +1102,13 @@ if __name__ == '__main__':
             'On which date was Genghis Khan\'s palace rediscovered by archeaologists?',
             'To-y is a _ .'
         ]
-        result = covidask.get_doc_scores(queries, [[36], [2], [31], [22222]])
+        result = covidask.get_doc_scores(queries, [[36], [2], [31], [2222]])
         logger.info(result)
         result = covidask.get_top_docs(queries, 5)
         logger.info(result)
-        result = covidask.get_doc_meta('29970463') # Only used when there's doc_meta
+        result = covidask.get_doc_meta(['29970463']) # Only used when there's doc_meta
         logger.info(result)
-        result = covidask.get_doc_meta('COVID-ABS_7f8715_viral entry properties required for fitness in humans are lost through rapid genomic change during viral isolation') # Only used when there's doc_meta
+        result = covidask.get_doc_meta(['COVID-ABS_418538_network-based drug repurposing for novel coronavirus 2019-ncov/sars-cov-2']) # Only used when there's doc_meta
         logger.info(result)
         result = covidask.get_q_spvecs(queries)
         logger.info(result)

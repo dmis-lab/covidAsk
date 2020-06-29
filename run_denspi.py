@@ -35,10 +35,11 @@ from torch.utils.data.distributed import DistributedSampler
 from torch.optim import Adam
 
 import tokenization
-from modeling import BertConfig, DenSPI
+from modeling import DenSPI
 from optimization import BERTAdam
 from post import write_hdf5, convert_question_features_to_dataloader
 from pre import convert_examples_to_features, read_squad_examples, convert_documents_to_features 
+from transformers import AutoConfig
 
 
 logging.basicConfig(format='%(asctime)s - %(levelname)s - %(name)s -   %(message)s', datefmt='%m/%d/%Y %H:%M:%S',
@@ -195,7 +196,11 @@ def main():
     if n_gpu > 0:
         torch.cuda.manual_seed_all(args.seed)
 
-    bert_config = BertConfig.from_json_file(args.bert_config_file)
+    # bert_config = BertConfig.from_json_file(args.bert_config_file)
+    bert_config = AutoConfig.from_pretrained(
+        'bert-base-uncased' if not (args.bert_model_option == 'large_uncased') else 'bert-large-uncased',
+        cache_dir='cache',
+    )
     if args.max_seq_length > bert_config.max_position_embeddings:
         raise ValueError(
             "Cannot use sequence length %d because the BERT model "
@@ -232,16 +237,25 @@ def main():
             model.bert.load_state_dict(state_dict)
             logger.info('Model initialized from the pre-trained BERT weight!')
 
+    '''
     if args.local_rank != -1:
         model = torch.nn.parallel.DistributedDataParallel(model, device_ids=[args.local_rank],
                                                           output_device=args.local_rank)
     elif args.parallel or n_gpu > 1:
         model = torch.nn.DataParallel(model)
         logger.info("Data parallel!")
+    '''
 
     if args.do_load:
         bind_model(processor, model)
-        processor.load(args.load_epoch, session=args.load_dir)
+        # processor.load(args.load_epoch, session=args.load_dir)
+        model = DenSPI.from_pretrained(
+            args.load_dir,
+            config=bert_config,
+            sparse_ngrams=args.sparse_ngrams.split(','),
+            use_sparse=args.use_sparse,
+        )
+    model.to(device)
 
     def is_freeze_param(name):
         if args.freeze_word_emb:

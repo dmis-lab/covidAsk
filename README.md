@@ -47,7 +47,7 @@ Note that this script will not work if multiple users are downloading the file a
 We previde two pre-processed versions of [CORD-19 abstracts](https://pages.semanticscholar.org/coronavirus-research) which will be used to make phrase dumps of DenSPI. We additionally extracted biomedical named entities using a multitask version of [BERN](https://bern.korea.ac.kr) and linked them into Concept Unique IDs using BioSyn (Sung et al., ACL 2020; [link](https://arxiv.org/abs/2005.00239)). Note that the format of pre-processed datasets is the same as SQuAD but with additional keys.
 * Pre-processed 37k CORD-19 abstracts with extracted biomedical entities (`data/2020-04-10`) \[[link](https://drive.google.com/file/d/1tt-tgXjKIu5hH750rJvEbZDAiz1Tj5Rt/view?usp=sharing)\]
 * Pre-processed 31k CORD-19 abstracts with extracted biomedical entities (2020-03-20 dump) \[[link](https://drive.google.com/file/d/1pyKJxGZgeLWknxMyOIGYAsOowZ6KlxHJ/view)\]
-* 74 sample questions with annotated answers from Kaggle, CDC, and WHO (`data/eval`)
+* COVID-19 Questions: 111 questions from Kaggle, CDC, and WHO \[[link](https://drive.google.com/file/d/1z7jW0fovgTfTScCanZvrvrUax1HAMEFV/view?usp=sharing)\]
 
 ## Model
 We use [DenSPI](https://www.aclweb.org/anthology/P19-1436/) as our base model for question answering. DenSPI supports a real-time question answering on a large unstructured corpus. To train your own DenSPI, see [here](https://github.com/uwnlp/denspi/). Our version of DenSPI is also trained with learnable sparse representations (Lee et al., ACL 2020; [link](https://arxiv.org/abs/1911.02896)). We provide two pretrained DenSPI as follows:
@@ -95,16 +95,18 @@ See `example.py` for more search options.
 ## Evaluation
 We manually created a small evaluation set consisting of 74 questions regarding COVID-19 from Kaggle, CDC and WHO. Use `data/eval/kaggle_cdc_who_augmented.json` for the evaluation. You can make API calls to evaluate the server as:
 ```bash
-$ python covidask.py --run_mode eval_request --index_port $PORT --test_path data/eval/kaggle_cdc_who_augmented.json
+$ python covidask.py --run_mode eval_sent --index_port $PORT --test_path test_interrogative_updated.json
 ```
 Or, you can evaluate by loading phrase dumps onto the memory as:
 ```bash
-$ python covidask.py --run_mode eval_inmemory --query_port $Q_PORT --doc_port $D_PORT --dump_dir $DUMP_DIR --test_path data/eval/kaggle_cdc_who_augmented.json
+$ python covidask.py --run_mode eval_sent_inm --query_port $Q_PORT --doc_port $D_PORT --dump_dir $DUMP_DIR --test_path test_interrogative_updated.json
 ```
-This will save a prediction file into `pred/kaggle_cdc_who_augmented.pred` with results as follows:
+This will save a prediction file into `pred/test_interrogative_updated.pred` with results as follows:
 ```bash
-04/17/2020 02:14:41 - INFO - __main__ -   {'exact_match_top1': 17.56756756756757, 'f1_score_top1': 26.885230840315774}
-04/17/2020 02:14:41 - INFO - __main__ -   {'exact_match_top10': 25.675675675675677, 'f1_score_top10': 43.14339166481719}
+06/29/2020 00:19:33 - INFO - __main__ -   Recall@1: 0.3019
+06/29/2020 00:19:33 - INFO - __main__ -   Recall@50: 0.6981
+06/29/2020 00:19:33 - INFO - __main__ -   Precision@50: 0.1321
+06/29/2020 00:19:33 - INFO - __main__ -   MRR@50: 0.4046
 ```
 
 ## Reference

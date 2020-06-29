@@ -93,7 +93,7 @@ print([r['answer'] for r in result['ret']])
 See `example.py` for more search options.
 
 ## Evaluation
-We manually created a small evaluation set consisting of 74 questions regarding COVID-19 from Kaggle, CDC and WHO. Use `data/eval/kaggle_cdc_who_augmented.json` for the evaluation. You can make API calls to evaluate the server as:
+We manually created a small evaluation set consisting of 111 questions regarding COVID-19 from Kaggle, CDC and WHO (COVID-19 Questions). You can make API calls to evaluate the server as:
 ```bash
 $ python covidask.py --run_mode eval_sent --index_port $PORT --test_path test_interrogative_updated.json
 ```

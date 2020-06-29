@@ -113,8 +113,8 @@ This will save a prediction file into `pred/test_interrogative_updated.pred` wit
 Technical report of our work will be arxived soon with following bibtex.
 ```bibtex
 @article{lee2020answering,
-  title={Answering Domain-Specific Questions in Real-Time for COVID-19 Research},
-  author={Lee, Jinhyuk and Jeong, Minbyul and Sung, Mujeen and Yoon, Wonjin and Sung, Mujeen and Choi, Yonghwa and Ko, Miyoung and Lee, Seok-Won and Kang, Jaewoo},
+  title={Answering Questions for COVID-19 in Real-Time},
+  author={Lee, Jinhyuk and Yi, Seon S. and Jeong, Minbyul and Sung, Mujeen and Yoon, Wonjin and Sung, Mujeen and Choi, Yonghwa and Ko, Miyoung and Kang, Jaewoo},
   journal={arxiv},
   year={2020}
 }

@@ -103,10 +103,10 @@ $ python covidask.py --run_mode eval_sent_inm --query_port $Q_PORT --doc_port $D
 ```
 This will save a prediction file into `pred/test_interrogative_updated.pred` with results as follows:
 ```bash
-06/29/2020 00:19:33 - INFO - __main__ -   Recall@1: 0.3019
-06/29/2020 00:19:33 - INFO - __main__ -   Recall@50: 0.6981
-06/29/2020 00:19:33 - INFO - __main__ -   Precision@50: 0.1321
-06/29/2020 00:19:33 - INFO - __main__ -   MRR@50: 0.4046
+06/29/2020 01:51:15 - INFO - __main__ -   Recall@1: 0.3585
+06/29/2020 01:51:15 - INFO - __main__ -   Recall@50: 0.7736
+06/29/2020 01:51:15 - INFO - __main__ -   Precision@50: 0.1479
+06/29/2020 01:51:15 - INFO - __main__ -   MRR@50: 0.4595
 ```
 
 ## Reference

@@ -3,7 +3,7 @@
 This repository provides code for covidAsk (https://covidask.korea.ac.kr), a real-time biomedical question answering system on COVID-19 articles. We currently support 1) dumping your own article set using our pre-trained models and 2) hosting a server like covidAsk on your machine. Please see our paper (https://openreview.net/forum?id=Wssn20iNf6j) for more details. This project is done by the members of DMIS Lab at Korea University.
 
 ### Updates
-* [2021.10.15] There is an issue with the hosting server, which we are working to solve as soon as possible.
+* [2021.10.20] Server issue has been resolved.
 
 ## Quick Start
 With simple python requests, you can get answers from covidAsk.

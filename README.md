@@ -40,7 +40,9 @@ $ conda activate covidAsk
 Note that our code is mostly based on [DenSPI](https://github.com/uwnlp/denspi) and [DrQA](https://github.com/facebookresearch/DrQA).
 
 ## Download
-We provide pre-processed CORD-19 datasets, pre-trained QA models, and their phrase dumps. Download required files from [here](https://drive.google.com/file/d/1z7jW0fovgTfTScCanZvrvrUax1HAMEFV/view?usp=sharing) and run `tar --xvzf datasets.tar.gz`. Or, you can run:
+We provide pre-processed CORD-19 datasets, pre-trained QA models, and their phrase dumps. Download required files from here: [covidask_data.tgz (109MB)](http://nlp.dmis.korea.edu/projects/covidask-lee-et-al-2020/covidask_data.tgz), [covidask_dump.tgz (13GB)](http://nlp.dmis.korea.edu/projects/covidask-lee-et-al-2020/covidask_dump.tgz), [covidask_models.tgz (1.2GB)](http://nlp.dmis.korea.edu/projects/covidask-lee-et-al-2020/covidask_models.tgz) and untar using `tar --xvzf FILENAME.tar.gz`. 
+
+Or, you can run:
 ```bash
 $ ./download.sh
 ```
